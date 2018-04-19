@@ -1,0 +1,24 @@
+{
+  "name": "voting-up",
+  "version": "1.0.0",
+  "description": "freecodecamp voting app project 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeorgeCrisan/voting-up.git"
+  },
+  "keywords": [
+    "node.js",
+    "passport",
+    "herkou"
+  ],
+  "author": "George Crisan @ georgecrisan.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeorgeCrisan/voting-up/issues"
+  },
+  "homepage": "https://github.com/GeorgeCrisan/voting-up#readme"
+}
