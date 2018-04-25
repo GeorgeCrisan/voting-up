@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const seesion = require('express-session');
 const path = require('path');
 const cors = require('cors');
-//let port = 3200;
+let port = 3200;
 /* set up server */
 const app = express();
 const configDBase = require('./my_modules/database.js');
@@ -26,4 +26,4 @@ app.get('/',(req,res)=>{
 
 });
 
-app.listen(process.env.PORT, ()=> console.log(`runing at ${ process.env.PORT}`) );
+app.listen(port || process.env.PORT, ()=> console.log(`runing at ${ process.env.PORT}`) );
