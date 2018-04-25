@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const seesion = require('express-session');
 const path = require('path');
 const cors = require('cors');
-//let port = 3200;
+let port = 3200;
 /* set up server */
 dotenv.config();
 
@@ -24,9 +24,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname + '/client/build/')));
 
 app.get('/',(req,res)=>{
-    console.log(process.env.STRING_TEST);
+    
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 
 });
 
-app.listen( process.env.PORT, ()=> console.log(`runing at ${ process.env.PORT}`) );
+app.listen( process.env.PORT || port, ()=> console.log(`runing at ${ process.env.PORT || port} and ${process.env.MONGOLAB_URI}`));
