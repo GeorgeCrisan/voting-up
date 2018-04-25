@@ -10,7 +10,7 @@ const cors = require('cors');
 //let port = 3200;
 /* set up server */
 dotenv.config();
-console.log(process.env.MONGOLAB_URI);
+
 const app = express();
 const configDBase = require('./my_modules/database.js');
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname + '/client/build/')));
 
 app.get('/',(req,res)=>{
-    
+    console.log(process.env.STRING_TEST);
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 
 });
