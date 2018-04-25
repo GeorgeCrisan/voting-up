@@ -18,11 +18,11 @@ app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname + '/client/public/')));
+app.use(express.static(path.join(__dirname + '/client/build/')));
 
 app.get('/',(req,res)=>{
     
-    res.sendFile('/client/public/index.html',{root: __dirname});
+    res.sendFile('/client/build/index.html',{root: __dirname});
 
 });
 
