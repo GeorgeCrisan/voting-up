@@ -18,7 +18,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname + '/client/build/')));
+app.use(express.static(path.join(__dirname + '/build/')));
 
 app.get('/',(req,res)=>{
     
