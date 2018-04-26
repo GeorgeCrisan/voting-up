@@ -4,17 +4,19 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const seesion = require('express-session');
 const path = require('path');
 const cors = require('cors');
+const database = require(path.join(__dirname + '/my_modules/database.js'));
 let port = 3200;
 /* set up server */
 dotenv.config();
 
 const app = express();
-const configDBase = require('./my_modules/database.js');
+//import temporary model
 
-/*database code lines , later to move in they own module comonjs */
+
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -23,10 +25,35 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname + '/client/build/')));
 
-app.get('/',(req,res)=>{
+
+/*database code lines , later to move in they own module comonjs */
+mongoose.connect(process.env.MONGOLAB_URI);
+var db = mongoose.connection; 
+
+db.on('error', console.error.bind(console,'connection error:'));
+
+db.once('open',function(){
+    console.log('running the db');
     
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+
+    app.get('/',(req,res)=>{
+    
+        res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    
+    });
+    
+
+    database();
+    
+
+    
+
+    
+    
+                               
 
 });
+
+
 
 app.listen( process.env.PORT || port, ()=> console.log(`runing at ${ process.env.PORT || port} and ${process.env.MONGOLAB_URI}`));

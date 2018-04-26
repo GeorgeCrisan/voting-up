@@ -1,8 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import MyApp from './app.js';
+import WebFont from 'webfontloader';
+import {BrowserRouter as Router } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+WebFont.load({
+    google: {
+      families: ['Gugi','Titillium Web:300,400,700', 'sans-serif']
+    }
+  });
+
+ReactDOM.render(
+    <Router>
+    <MyApp />
+    </Router> , document.getElementById('root'));
 registerServiceWorker();
