@@ -9,7 +9,7 @@ const seesion = require('express-session');
 const path = require('path');
 const cors = require('cors');
 const database = require(path.join(__dirname + '/my_modules/database.js'));
-let port = 3200;
+let port = 8333;
 /* set up server */
 dotenv.config();
 
@@ -27,15 +27,14 @@ app.use(express.static(path.join(__dirname + '/client/build/')));
 
 
 /*database code lines , later to move in they own module comonjs */
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://adminrdp:rdpadmin@ds253959.mlab.com:53959/voteupdb'); // exposed for heroku only to store away after
 var db = mongoose.connection; 
 
 db.on('error', console.error.bind(console,'connection error:'));
 
 db.once('open',function(){
-    console.log('running the db');
+    console.log('running the db merge');
     
-
     app.get('/',(req,res)=>{
     
         res.sendFile(path.join(__dirname + '/client/build/index.html'));
@@ -43,14 +42,7 @@ db.once('open',function(){
     });
     
 
-    database();
-    
-
-    
-
-    
-    
-                               
+    database(app);
 
 });
 

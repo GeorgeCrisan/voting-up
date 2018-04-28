@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8333/",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "d3": "^5.1.0",

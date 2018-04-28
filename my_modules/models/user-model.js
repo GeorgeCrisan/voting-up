@@ -17,7 +17,7 @@ const UserSchema = new Schema({
          type: String ,
          required: 'Password is required'
      }
-});
+},{collection: 'users' });
 
 UserSchema.methods.hashPassword = function(password){
     this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(8));

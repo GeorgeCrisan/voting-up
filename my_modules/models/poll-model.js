@@ -29,7 +29,7 @@ const PollSchema = new Schema({
         ips: [{type: String}] //ips of users who voted
 
 
-});
+},{collection: 'polls'});
 
 const Poll = mongoose.model('Poll', PollSchema);
 
