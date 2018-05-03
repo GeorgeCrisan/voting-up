@@ -1,6 +1,7 @@
 .header-global {
   margin: auto;
-  width: 1200px; }
+  width: 1200px;
+  height: 200px; }
   .header-global h3 {
     color: #5D4037;
     text-shadow: 1px 1px 1px grey;
@@ -17,25 +18,28 @@
   margin: auto;
   width: 400px;
   display: flex;
-  justify-content: space-around;
-  height: 200px; }
-  .header-body button {
-    align-self: center;
-    flex: 0 0 auto;
-    height: 40px;
-    width: 140px;
-    font-family: 'Gugi', cursive;
-    font-size: 16px;
-    margin: 20px;
-    text-shadow: 1px 1px 1px black;
-    background: rgba(44, 144, 223, 0.7);
-    border-color: #0490ff;
-    border-width: 2px;
-    color: white; }
-    .header-body button:hover {
-      background: rgba(33, 221, 33, 0.4);
-      color: white;
-      opacity: 1;
-      border-width: 1px;
-      border-color: lime;
-      transition-duration: 0.3s; }
+  justify-content: space-around; }
+  .header-body a {
+    position: relative;
+    top: 50px;
+    cursor: pointer; }
+    .header-body a button {
+      align-self: center;
+      flex: 0 0 auto;
+      height: 40px;
+      width: 140px;
+      font-family: 'Gugi', cursive;
+      font-size: 16px;
+      margin: 20px;
+      text-shadow: 1px 1px 1px black;
+      background: rgba(44, 144, 223, 0.7);
+      border-color: #0490ff;
+      border-width: 2px;
+      color: white; }
+      .header-body a button:hover, .header-body a button:active, .header-body a button:focus {
+        background: rgba(33, 221, 33, 0.4);
+        color: white;
+        opacity: 1;
+        border-width: 1px;
+        border-color: lime;
+        transition-duration: 0.3s; }

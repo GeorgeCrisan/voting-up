@@ -1,0 +1,20 @@
+.entry-page {
+  display: flex;
+  justify-content: space-around;
+  width: 1200px;
+  flex-flow: row wrap;
+  min-height: 250px;
+  background: rgba(44, 144, 233, 0.7);
+  border-radius: 20px;
+  margin: 180px auto 0 auto; }
+  .entry-page div {
+    width: 280px;
+    text-align: center;
+    font-family: 'Gugi', cursive;
+    font-size: 24px;
+    align-self: center;
+    color: white;
+    text-shadow: 1px 1px 1px black; }
+
+.display-none {
+  display: none; }

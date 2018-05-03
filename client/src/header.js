@@ -1,37 +1,17 @@
 import React from 'react';
 import {Button}  from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import './header.css';
 
 class Header extends React.Component {
 
    constructor(props){
        super(props);
-       this.state = {
-
-
-       }
-       this.fetchDataPoll = this.fetchDataPoll.bind(this);
    }
 
-   fetchDataPoll(e){
-        e.preventDefault();
-        fetch('/allpolls',{
-             method:'POST',
-             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-             }
-        }).then((response)=>{
-           // console.log(data);
-           response.json().then((data)=>{
-    console.log(data);
+ 
 
-
-           })
-        });
-   }
-
-
+   
 
    render(){
       return(
@@ -39,8 +19,8 @@ class Header extends React.Component {
         <h3> Vote up, creat a poll or vote an existing one! </h3>
         <div className='header-body'>
         
-        <Button bsStyle="default" >  Sign In </Button>
-        <Button bsStyle="default" onClick={this.fetchDataPoll} >  Poll list </Button> 
+        <Link to='/auth'><Button bsStyle="default" >  Sign In </Button></Link>
+        <Link to='/polls'><Button bsStyle="default" onClick={this.props.buttonEpFunc} >  Poll list </Button> </Link>
         </div>
         </div>)
 

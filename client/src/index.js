@@ -1,10 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MyApp from './app.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import registerServiceWorker from './registerServiceWorker';
 

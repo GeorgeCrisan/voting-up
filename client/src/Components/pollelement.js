@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './pollelements.css';
 import {Popover , Button , Modal , OverlayTrigger , Tooltip} from 'react-bootstrap';
 
-class ModalPoll extends React.Component {
+class ModalPoll extends Component {
     constructor(props, context) {
       super(props, context);
   
@@ -50,7 +50,7 @@ class ModalPoll extends React.Component {
   
               <h4>Options:</h4>
               {this.props.elementoptions.map((el,i)=>{
-                   return(<div>
+                   return(<div key={i+12}>
                        <p><a>Option {i+1}:  {el.value}</a></p>
                        <p>Number of votes: {el.votes}</p>
                    </div>)
