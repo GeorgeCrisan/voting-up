@@ -14,17 +14,11 @@ class MyApp extends React.Component {
               this.state = {
                      loadedPolls : [],
                      loadedUsers: [],
-                     entrypagestyle: true
+
               }
           this.BodyAppWP = this.BodyAppWP.bind(this);
-          this.buttonEpFunc = this.buttonEpFunc.bind(this);
-        }
 
-        buttonEpFunc(){
-            if(this.state.entrypagestyle)
-                this.setState({entrypagestyle: false})
-  
-     }
+        }
 
       componentDidMount(){
                 fetch('/allpolls',{
@@ -85,7 +79,7 @@ class MyApp extends React.Component {
         <div className="base-style">
         <Header buttonEpFunc={this.buttonEpFunc} />
         <Route path='/polls' render={this.BodyAppWP}/>
-        <EntryPage mystatusdisplay={this.state.entrypagestyle}/>
+        <Route exact path='/' component={EntryPage} />
         <Footer />
         
         </div>);   

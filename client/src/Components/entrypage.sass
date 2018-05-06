@@ -1,21 +1,51 @@
 .entry-page
   display: flex
   justify-content: space-around
-  width: 1200px 
-  flex-flow: row wrap    
-  min-height: 250px
-  background: rgba(44,144,233,0.7)
-  border-radius: 20px
-  margin: 180px auto 0 auto 
+  width: 100% 
+  flex-flow: column wrap  
+  margin: 200px auto 0 auto 
 
-  div 
-    width: 280px
+
+
+.infos-style
+  display: flex
+  justify-content: space-around
+  width: 50%  
+  
+  flex-flow: row wrap    
+  margin: 30px auto 0 auto 
+  p 
+    width: 160px
     text-align: center
     font-family: 'Gugi', cursive;
-    font-size: 24px
+    font-size: 16px
     align-self: center
+    margin: 10px 0px
     color: white
-    text-shadow: 1px 1px 1px black
+    text-shadow: 1px 1px 1px black  
 
 .display-none 
   display: none      
+
+.logos-icons
+  display: flex
+  color: white
+  justify-content: space-around
+  flex-flow: row wrap 
+  width: 50%
+  margin: 10px auto
+  
+  
+  
+.logo-style 
+  position: relative 
+  font-size: 25px
+  text-align: center
+  margin: 10px 20px
+  width: 100px
+  padding: 10px
+  height: 90px
+  &:nth-child(2)
+    position: relative 
+    left: -15px
+    top: 20px

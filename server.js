@@ -9,6 +9,7 @@ const seesion = require('express-session');
 const path = require('path');
 const cors = require('cors');
 const database = require(path.join(__dirname + '/my_modules/database.js'));
+const LocalStrategy = require('passport-local').Strategy;
 let port = 8333;
 /* set up server */
 dotenv.config();

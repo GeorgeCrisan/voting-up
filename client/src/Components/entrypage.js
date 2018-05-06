@@ -12,24 +12,24 @@ class EntryPage extends Component {
            super(props);
        }
     render(){
-        return(<div className={this.props.mystatusdisplay ? 'entry-page' : 'display-none'} >
+        return(<div className='entry-page'>
 
         <div className='logos-icons'>
 
-        <img src={mgdpng} alt='logo img node react express mongodb'/>
-        <img src={expng} alt='logo img node react express mongodb'/>
-        <img src={rjspng} alt='logo img node react express mongodb'/>
-        <img src={njpng} alt='logo img node react express mongodb'/>
+        <img src={mgdpng} className='logo-style' alt='logo img node react express mongodb'/>
+        <div  className='logo-style' alt=''>ExpressJs</div>
+        <img src={rjspng} className='logo-style' alt='logo img node react express mongodb'/>
+        <img src={njpng} className='logo-style' alt='logo img node react express mongodb'/>
 
         </div>
         
-        <div>
+        <div className='infos-style'>
                   
-                 <div>Take part on other users polls.</div>
-                <div>You can create an acount for free and create your own poll.</div>
+                 <p>Take part on other users polls.</p>
+                <p>You can create an acount for free and create your own poll.</p>
                 
-                <div>This application is build by George Crisan at georgerdp@gmail.com.</div>
-                <div>Node, Express, ReactJS, Mongoose.</div>
+                <p>This application is build by George Crisan at georgerdp@gmail.com.</p>
+                <p>Node, Express, ReactJS, Mongoose.</p>
             </div>
             </div>)
     }
