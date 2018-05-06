@@ -1,13 +1,14 @@
 {
-  "main.css": "static/css/main.9e18ab70.css",
-  "main.css.map": "static/css/main.9e18ab70.css.map",
-  "main.js": "static/js/main.b68647a5.js",
-  "main.js.map": "static/js/main.b68647a5.js.map",
+  "main.css": "static/css/main.bf66176f.css",
+  "main.css.map": "static/css/main.bf66176f.css.map",
+  "main.js": "static/js/main.312c9322.js",
+  "main.js.map": "static/js/main.312c9322.js.map",
   "static\\media\\glyphicons-halflings-regular.eot": "static/media/glyphicons-halflings-regular.f4769f9b.eot",
   "static\\media\\glyphicons-halflings-regular.svg": "static/media/glyphicons-halflings-regular.89889688.svg",
   "static\\media\\glyphicons-halflings-regular.ttf": "static/media/glyphicons-halflings-regular.e18bbf61.ttf",
   "static\\media\\glyphicons-halflings-regular.woff": "static/media/glyphicons-halflings-regular.fa277232.woff",
   "static\\media\\glyphicons-halflings-regular.woff2": "static/media/glyphicons-halflings-regular.448c34a5.woff2",
+  "static\\media\\logincomp.sass": "static/media/logincomp.d41d8cd9.sass",
   "static\\media\\mgb.png": "static/media/mgb.b44cdf78.png",
   "static\\media\\nodejs.png": "static/media/nodejs.e590aad7.png",
   "static\\media\\rjs.png": "static/media/rjs.2260eb1a.png"
