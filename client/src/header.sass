@@ -36,17 +36,34 @@
       height: 38px
       width: 100px 
       font-family: 'Gugi', cursive;
-      font-size: 16px
+      font-size: 14px
       margin: 20px  
       text-shadow: 1px 1px 1px black
       background: rgba(44,144,223,0.7)
       border-color: rgba(4,144,323,1)
-      border-width: 2px
+      border-width: 1px
       color: white
-      &:hover ,&:active, &:focus
+      &:hover 
         background: rgba(33,221,33,0.4)
         color: white
         opacity: 1
         border-width: 1px
         border-color: lime   
-        transition-duration: 0.3s 
+        transition-duration: 0.3s
+      &:focus
+        background: rgba(44,144,223,0.7)
+        border-color: rgba(4,144,323,1)
+    &:nth-child(3)
+      button 
+        background:  rgba(255, 153, 0,0.6)  
+        width: 140px
+        border-color: black
+        border-width: 1px
+        &:hover 
+          background: rgba(255, 153, 0,1) 
+          color: black
+          opacity: 1
+          border-width: 1px
+          border-color: black  
+          transition-duration: 0.3s
+          text-shadow: none

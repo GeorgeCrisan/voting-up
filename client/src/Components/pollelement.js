@@ -23,12 +23,7 @@ class ModalPoll extends Component {
     }
   
     render() {
-      const popover = (
-        <Popover id="modal-popover" title="popover">
-          very popover. such engagement
-        </Popover>
-      );
-      const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
+     
   
       return (
         <div>
@@ -40,6 +35,7 @@ class ModalPoll extends Component {
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>{this.props.elementname}</Modal.Title>
+              
             </Modal.Header>
             <Modal.Body>
               <h4>Created by: {this.props.userid}</h4>

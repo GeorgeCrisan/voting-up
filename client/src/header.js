@@ -19,8 +19,9 @@ class Header extends React.Component {
             <h3> Vote up! Create polls! </h3>
            <div className='header-body'>
            
-           <Link to='/auth'><Button bsStyle="default" >  Sign In </Button></Link>
-           <Link to='/polls'><Button bsStyle="default" onClick={this.props.buttonEpFunc} >  Poll list </Button> </Link>
+           <Link to='/authSignIn'><Button bsStyle="info" onClick={this.props.handleShow} >  Sign In </Button></Link>
+           <Link to='/polls'><Button bsStyle="info"  >  Poll list </Button> </Link>
+           <Link to='/authCA' > <Button bsStyle='warning' onClick={this.props.handleShow}> Create Account</Button></Link>
            </div>
         </div>)
 
