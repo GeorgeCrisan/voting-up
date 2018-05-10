@@ -17,7 +17,7 @@ let port = 8333;
 dotenv.config();
 const app = express();
 var store = new MongoDBStore({
-    uri: process.env.MONGOLAB_URI || 'mongodb://adminrdp:rdpadmin@ds253959.mlab.com:53959/voteupdb',
+    uri: process.env.MONGOLAB_URI ,
         databaseName: 'voteupdb',
         collection: 'mySessions'
 },
@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname + '/client/build/')));
 
 
 /*database code lines , later to move in they own module comonjs */
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://adminrdp:rdpadmin@ds253959.mlab.com:53959/voteupdb'); // exposed for heroku only to store away after
+mongoose.connect(process.env.MONGOLAB_URI ); // exposed for heroku only to store away after
 var db = mongoose.connection; 
 
 
