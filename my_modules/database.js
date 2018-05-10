@@ -1,24 +1,23 @@
 const mongoose = require('mongoose');
 const path = require('path');
-const Poll = require(path.join(__dirname + '/models/poll-model.js'));
+const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
 const User = require(path.join(__dirname + '/models/user-model.js'));
+const Poll = require(path.join(__dirname + '/models/poll-model.js'));
+const usersrouter = require('./routes/usersrouter.js');
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 module.exports = function(app){
     //console.log(app);
-var testUser = new User({name: 'George' , email: 'georgerdp@gmail.com', password: 'testpassword'}); 
+var testUser = new User({username: 'George' , email: 'georgerdp@gmail.com', password: 'testpassword'}); 
 
-var georgeCrisan = new User({name: 'george crisan' , email:'georgerdp@gmail.com', password: 'testpassword' });
-
-var testPoll = new Poll({name: 'Another entry I may say would be useful for testing',
-createdBy: georgeCrisan._id ,
-options: [{value: 'alege varianta 1 ', votes: 100},{value:'alege varianta 2',votes: 50 }],
-users: [null,null,null,] ,
-ips: [null,null,null ] 
-});
+var georgeCrisan = new User({username: 'george crisan' , email:'georgerdp@gmail.com', password: 'testpassword' });
 
 
-
-app.post('/allpolls',(req,res)=>{
+app.get('/allpolls',(req,res)=>{
        //  console.log(req);
        Poll.find((err,elements)=>{
            if(err) console.log(err + 'Got this error' + err);
@@ -27,12 +26,5 @@ app.post('/allpolls',(req,res)=>{
 
 });
 
-app.post('/allusers',(req,res)=>{
-    User.find((err,results)=>{
-        if(err) console.log(err + 'Got thi error from user query ');
-        res.send(results);
-   })
-
-});
-
+app.use(usersrouter); 
     } //end of export

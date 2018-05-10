@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Example  from './Components/pollelement.js';
 import './bodyapp.css';
 import ModalPoll from './Components/pollelement.js';
 

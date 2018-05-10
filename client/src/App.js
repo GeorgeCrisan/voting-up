@@ -2,9 +2,10 @@ import React from 'react';
 import Header from './header.js';
 import BodyApp from './body.js';
 import Footer from './footer.js';
-import {Route} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import EntryPage from './Components/entrypage.js';
 import Login from './Components/logincomp.js';
+import Loggedin from './Components/loggedin.js';
 import CreateAccount from './Components/CreateAccount.js';
 import './app.css';
 
@@ -16,7 +17,8 @@ class MyApp extends React.Component {
               this.state = {
                      loadedPolls : [],
                      loadedUsers: [],
-                     showModalAuth: false
+                     showModalAuth: false,
+                     userIsLogged: false
 
 
               }
@@ -25,6 +27,9 @@ class MyApp extends React.Component {
           this.handleShow = this.handleShow.bind(this);
           this.handleClose = this.handleClose.bind(this);
           this.CreateAccountF = this.CreateAccountF.bind(this);
+          this.RenderLoggedin = this.RenderLoggedin.bind(this);
+          this.handleuserisloggedinState = this.handleuserisloggedinState.bind(this);
+          
         }
 
         handleClose(){
@@ -41,13 +46,20 @@ class MyApp extends React.Component {
 
         }
 
+        handleuserisloggedinState(){
+             if(!this.state.userIsLogged)
+                 this.setState({userIsLogged: true});
+             else
+              this.setState({userIsLogged: false});
+        }
+
       
 
 
 
       componentDidMount(){
                 fetch('/allpolls',{
-                    method: 'POST',
+                    method: 'GET',
                     headers:{
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -69,30 +81,9 @@ class MyApp extends React.Component {
                      });
 
                 }).catch(error=>{
-                    alert(error + 'Try again!');
+                    console.log(error + ' Try again!');
                 });
-
-              fetch('/allusers',{
-                method: 'POST',
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    }
-                 }).then((response)=>{
-
-                     response.json().then(data=>{
-                        console.log('data loaded in the componentDidMount The users');
-
-                         var tempArray = [];
-                         data.forEach(element => {
-                             tempArray.push(element);
-                         });
-
-                         this.setState({loadedUsers: tempArray});
-                         
-
-                     });
-              });  
+ 
       }  
 
       BodyAppWP(){
@@ -104,19 +95,33 @@ class MyApp extends React.Component {
       }
 
       CreateAccountF(){
-        return(<CreateAccount show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
+    
+         return(<CreateAccount show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
+
+        }
+
+    RenderLoggedin(){
+        
+         return(<Loggedin userIsLogged={this.state.userIsLogged} handleuserisloggedinState={this.handleuserisloggedinState}/>)
     }
+
+
 
    render(){
        
     return(
          
         <div className="base-style">
-        <Header SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow}/>
+        
+        <Header SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow} userIsLogged={this.state.userIsLogged}/>
+        <Switch>
         <Route path='/polls' render={this.BodyAppWP}/>
         <Route exact path='/' component={EntryPage} />
         <Route path='/authSignIn' render={this.Login}/>
-        <Route path='/authCA' render={this.CreateAccountF}/>
+        <Route path='/authCA' render={this.CreateAccountF } />
+        <Route path='/loggedin' render={this.RenderLoggedin} />
+        <Route path='/signout'/>
+        </Switch>
         <Footer />
         
         </div>);   

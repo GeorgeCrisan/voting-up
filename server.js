@@ -1,35 +1,60 @@
 /*require npm modules----  */
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
+const faicon = require('serve-favicon');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const seesion = require('express-session');
+var session = require('express-session');
 const path = require('path');
 const cors = require('cors');
 const database = require(path.join(__dirname + '/my_modules/database.js'));
 const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
+const MongoDBStore = require('connect-mongodb-session')(session);
 let port = 8333;
 /* set up server */
 dotenv.config();
-
 const app = express();
-//import temporary model
+var store = new MongoDBStore({
+    uri: process.env.MONGOLAB_URI ,
+        databaseName: 'voteupdb',
+        collection: 'mySessions'
+},
+function(error) {
+    if(error)
+      console.log(error + 'from store');
+  });
 
+  store.on('error', function(error) {
+    if(error)
+      console.log(error + 'from store on error bit');
+  });  
+
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+ 
 
 
 app.use(morgan('dev'));
 app.use(cors());
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname + '/client/build/')));
 
 
 /*database code lines , later to move in they own module comonjs */
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://adminrdp:rdpadmin@ds253959.mlab.com:53959/voteupdb'); // exposed for heroku only to store away after
+mongoose.connect(process.env.MONGOLAB_URI); // exposed for heroku only to store away after
 var db = mongoose.connection; 
+
+
 
 db.on('error', console.error.bind(console,'connection error:'));
 
