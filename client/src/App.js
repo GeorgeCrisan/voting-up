@@ -5,7 +5,6 @@ import Footer from './footer.js';
 import {Route, Switch} from 'react-router-dom';
 import EntryPage from './Components/entrypage.js';
 import Login from './Components/logincomp.js';
-import Loggedin from './Components/loggedin.js';
 import CreateAccount from './Components/CreateAccount.js';
 import './app.css';
 
@@ -16,7 +15,6 @@ class MyApp extends React.Component {
               super(props);
               this.state = {
                      loadedPolls : [],
-                     loadedUsers: [],
                      showModalAuth: false,
                      userIsLogged: false
 
@@ -27,9 +25,8 @@ class MyApp extends React.Component {
           this.handleShow = this.handleShow.bind(this);
           this.handleClose = this.handleClose.bind(this);
           this.CreateAccountF = this.CreateAccountF.bind(this);
-          this.RenderLoggedin = this.RenderLoggedin.bind(this);
-          this.handleuserisloggedinState = this.handleuserisloggedinState.bind(this);
-          
+          this.confirmUserIsLogged = this.confirmUserIsLogged.bind(this);
+          this.confirmLogOut = this.confirmLogOut.bind(this);
         }
 
         handleClose(){
@@ -45,15 +42,16 @@ class MyApp extends React.Component {
             this.setState({showModalAuth: true});
 
         }
+ 
+  
+       confirmUserIsLogged(){
+           console.log('this is runing to confirm loggedin');
+           this.setState({userIsLogged: true});
+       }
 
-        handleuserisloggedinState(){
-             if(!this.state.userIsLogged)
-                 this.setState({userIsLogged: true});
-             else
-              this.setState({userIsLogged: false});
-        }
-
-      
+       confirmLogOut(){
+           this.setState({userIsLogged: false});
+       }
 
 
 
@@ -91,19 +89,17 @@ class MyApp extends React.Component {
       }
 
       Login(){
-          return(<Login show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
+          return(<Login confirmUserIsLogged={this.confirmUserIsLogged} show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
       }
 
       CreateAccountF(){
     
-         return(<CreateAccount show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
+         return(<CreateAccount confirmUserIsLogged={this.confirmUserIsLogged} show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
 
         }
 
-    RenderLoggedin(){
-        
-         return(<Loggedin userIsLogged={this.state.userIsLogged} handleuserisloggedinState={this.handleuserisloggedinState}/>)
-    }
+
+
 
 
 
@@ -113,14 +109,12 @@ class MyApp extends React.Component {
          
         <div className="base-style">
         
-        <Header SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow} userIsLogged={this.state.userIsLogged}/>
+        <Header confirmLogOut={this.confirmLogOut} SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow} userIsLogged={this.state.userIsLogged}/>
         <Switch>
         <Route path='/polls' render={this.BodyAppWP}/>
         <Route exact path='/' component={EntryPage} />
         <Route path='/authSignIn' render={this.Login}/>
         <Route path='/authCA' render={this.CreateAccountF } />
-        <Route path='/loggedin' render={this.RenderLoggedin} />
-        <Route path='/signout'/>
         </Switch>
         <Footer />
         

@@ -4,9 +4,22 @@ const plm = require('passport-local-mongoose');
 const Schema = mongoose.Schema; 
 
 var UserSchema = new Schema({
-    username: String,
-    email: String,
-    password: String
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String
+     },
+     pollsCreated:{
+         type: Array,
+         default:[]
+     },
+     pollsVoted:{
+         type: Array,
+         default: []
+     }
 });
 
 UserSchema.plugin(plm);

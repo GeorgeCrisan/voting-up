@@ -10,36 +10,137 @@ import {Col, ControlLabel, Form ,Button , Modal ,Popover , Tooltip , OverlayTrig
 class Login extends Component {
     constructor(props){
         super(props);
+
+          this.state= {
+              username: '',
+              password: '',
+              error:{errorMess: 'Username and password must have 6 characters or more. '},
+              LandV: false
+          }
+
+          this.onFormSubmit = this.onFormSubmit.bind(this);
+          this.handleChangeUN = this.handleChangeUN.bind(this);
+          this.handleChangePW = this.handleChangePW.bind(this);
+          this.validateStateForm = this.validateStateForm.bind(this);
+          this.LGbuttonConditions = this.LGbuttonConditions.bind(this);
+          this.validcondition = this.validcondition.bind(this);
+  
   
     }
        
+    LGbuttonConditions(){
+      if(this.state.username.length < 6 || this.state.password.length < 6){
+       return false;
+      } 
+      return true;
+        
+ }
+    handleChangeUN(event){
+      this.setState({username: event.target.value });  
+       }
+
+    handleChangePW(event){
+         this.setState({password: event.target.value });  
+          }  
+          
+   validateStateForm(parameter){
+        let length = '';
+
+        if(parameter === 'un')
+           length = this.state.username.length;
+      else if (parameter === 'pw')   
+           length = this.state.password.length;
+
+            if (length >= 6){
+                return 'success';
+            }
+         else if (length < 6)
+                return 'warning';
+         else if (length > 0)
+                 return 'error';
+         return null;
+   }
+   
+   validcondition(para){
+    if(para === 'password'){
+      if(this.state.password.length < 6){
+        return false;
+       } 
+       return true;
+
+    } else if (para === 'username'){   
+    if(this.state.username.length < 6){
+     return false;
+    } 
+    return true;
+  }  
+}
+
+  onFormSubmit(event){
+      event.preventDefault();
+
+      if(this.state.password.length < 6 || this.state.username.length < 6)
+          return false;
+
+      let data = {
+            username: this.state.username,
+            password: this.state.password
+      }    
+     fetch('/login',{
+       method: 'POST',
+       Headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+     },
+     body: JSON.stringify(data)
+     }).then(res=>{
+
+         res.json().then(data=>{
+
+           console.log('am primit napoi de la server in login+ ' , data);
+           if(data.confirm === 'success-login'){
+             console.log(data.confirm);
+            this.props.confirmUserIsLogged();
+          }
+
+         });
+
+     });
+
+  }
+
+
 
    render(){
 
-    const LogInForm = (<Form horizontal>
-        <FormGroup controlId="formHorizontalEmail">
+    const LogInForm = (<Form onSubmit={this.onFormSubmit}  horizontal>
+      <FormGroup controlId="formHorizontalUsername" validationState={this.validateStateForm('un')}>
           <Col componentClass={ControlLabel} sm={2}>
-            Email
+            Username
           </Col>
           <Col sm={10}>
-            <FormControl type="email" placeholder="Email" />
+            <FormControl autoComplete="off" type="text" value={this.state.username} placeholder="Username" name="username" onChange={this.handleChangeUN} />
+            <p>  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
           </Col>
-        </FormGroup>
+        </FormGroup>  
       
-        <FormGroup controlId="formHorizontalPassword">
+        
+
+        <FormGroup  controlId="formHorizontalPassword"  validationState={this.validateStateForm('pw')} >
           <Col componentClass={ControlLabel} sm={2}>
-            
+            Password
           </Col>
           <Col sm={10}>
-            <FormControl type="password" placeholder="Password" />
-          </Col>
+            <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
+            <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
+            </Col>
         </FormGroup>
       
    
       
         <FormGroup>
           <Col smOffset={2} sm={10}>
-            <Button bsStyle='info' type="submit">SIGN IN</Button>
+          <Button onClick={this.LGbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Log In</Button> 
           </Col>
         </FormGroup>
       </Form>);

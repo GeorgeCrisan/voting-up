@@ -12,6 +12,9 @@ const database = require(path.join(__dirname + '/my_modules/database.js'));
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
+const Poll = require(path.join(__dirname + '/my_modules/models/poll-model.js'));
+const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
 let port = 8333;
 /* set up server */
 dotenv.config();
@@ -60,18 +63,39 @@ db.on('error', console.error.bind(console,'connection error:'));
 
 db.once('open',function(){
     console.log('running the db merge');
-    
-    app.get('/',(req,res)=>{
-    
-        res.sendFile(path.join(__dirname + '/client/build/index.html'));
-    
-    });
-    
+});
 
-    database(app);
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.get('/allpolls',(req,res)=>{
+       //  console.log(req);
+       Poll.find((err,elements)=>{
+           if(err) console.log(err + 'Got this error' + err);
+           res.send(elements);
+       });
 
 });
 
+app.use(usersrouter); 
+
+app.get('/',(req,res)=>{
+    
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+
+});
+
+
+
+
+
+
+app.use((req,res,next)=>{
+      let err = new Error('Eroor not found');
+      err.status = 404;
+      next(err);
+});
 
 
 app.listen( process.env.PORT || port, ()=> console.log(`runing at ${ process.env.PORT || port} and ${process.env.MONGOLAB_URI}`));

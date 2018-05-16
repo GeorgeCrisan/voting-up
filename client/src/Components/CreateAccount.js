@@ -10,48 +10,163 @@ import {Col, ControlLabel, Form ,Button , Modal ,Popover , Tooltip , OverlayTrig
 class CreateAccount extends Component {
     constructor(props){
         super(props);
-  
+
+         this.state = {
+               username: '',
+               password: '',
+               error:{errorMess: 'Username and password must have 6 characters or more. '},
+               LandV: false
+         }
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleChangeUN = this.handleChangeUN.bind(this);
+        this.handleChangePW = this.handleChangePW.bind(this);
+        this.getValidationStateUN = this.getValidationStateUN.bind(this);
+        this.CAbuttonConditions = this.CAbuttonConditions.bind(this);
+        this.validcondition = this.validcondition.bind(this);
+
     }
+
+    handleChangeUN(event){
+       this.setState({username: event.target.value });  
+        }
+
+     handleChangePW(event){
+          this.setState({password: event.target.value });  
+           }  
+           
+    getValidationStateUN(para){ 
+          
+         var length = '';
+         if(para === 'un')
+             length = this.state.username.length;
+         else if (para === 'pw')   
+          length = this.state.password.length;
+  
+        if (length >= 6){
+            return 'success';
+        }
+    else if (length < 6)
+            return 'warning';
+    else if (length > 0)
+             return 'error';
+    return null;
+         
+    }    
+    
+    CAbuttonConditions(){
+         if(this.state.username.length < 6 || this.state.password.length < 6){
+          return false;
+         } 
+         return true;
+           
+    }
+
+    validcondition(para){
+      if(para === 'password'){
+        if(this.state.password.length < 6){
+          return false;
+         } 
+         return true;
+  
+      } else if (para === 'username'){   
+      if(this.state.username.length < 6){
+       return false;
+      } 
+      return true;
+    }  
+  }
+
        
+    onFormSubmit(event){
+       event.preventDefault();
+
+       if(this.state.username.length < 6 || this.state.password.length < 6){
+        return false;
+       } 
+
+        let data = {
+          username: this.state.username,
+          password: this.state.password     
+     }
+
+        fetch('/authCA',{
+            method:'POST',
+            headers:{
+             'Accept': 'application/json',
+             'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+
+        }).then(res=>{
+
+                 res.json().then(data=>{
+    
+                 console.log(data);
+                  if(data.success === true){
+
+                        // console.log('now we can login');
+
+                         var user = {
+                           username: this.state.username,
+                           password: this.state.password
+                                    };
+
+                                 console.log(user);   
+                         fetch('/login',{
+                             method:'POST',
+                             headers:{
+                              'Accept': 'application/json',
+                              'Content-Type': 'application/json',
+                             },
+                             body: JSON.stringify(user)
+                         }).then(res=>{
+                                 res.json().then(recdata=>{
+                                  //console.log('am primit napoi de la server in create account login  ', recdata);
+                                   if(recdata.confirm === 'success-login'){
+                                     this.props.confirmUserIsLogged();
+                                   }
+                                 });
+                               
+                         });
+                  } else if(data.success === false){
+                     console.log(data.msg);
+                  }
+              });
+
+        });
+    }
 
    render(){
 
 
-      const CreateAccount = (<Form action='/authCA' method='post' encType="application/x-www-form-urlencoded" horizontal>
-      <FormGroup controlId="formHorizontalUsername">
+      const CreateAccount = (<Form onSubmit={this.onFormSubmit}  horizontal>
+      <FormGroup controlId="formHorizontalUsername" validationState={this.getValidationStateUN('un')}>
           <Col componentClass={ControlLabel} sm={2}>
             Username
           </Col>
           <Col sm={10}>
-            <FormControl type="text" placeholder="Username" name="username" />
+            <FormControl autoComplete="off" type="text" value={this.state.username} placeholder="Username" name="username" onChange={this.handleChangeUN} />
+            <p>  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
           </Col>
         </FormGroup>  
       
-      <FormGroup controlId="formHorizontalEmail">
-          <Col componentClass={ControlLabel} sm={2}>
-            Email
-          </Col>
-          <Col sm={10}>
-            <FormControl type="email" placeholder="Email" name="email" />
-          </Col>
-        </FormGroup>
-        
         
 
-        <FormGroup  controlId="formHorizontalPassword" >
+        <FormGroup  controlId="formHorizontalPassword"  validationState={this.getValidationStateUN('pw')} >
           <Col componentClass={ControlLabel} sm={2}>
             Password
           </Col>
           <Col sm={10}>
-            <FormControl type="password" placeholder="Password" name="password" />
-          </Col>
+            <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
+            <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
+            </Col>
         </FormGroup>
       
    
       
         <FormGroup>
           <Col smOffset={2} sm={10}>
-            <Button bsStyle='info' type="submit">Sign Up</Button>
+          <Button onClick={this.CAbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Sign Up</Button> 
           </Col>
         </FormGroup>
       </Form>);
