@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyApp from './app.js';
+import MyApp from './App.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
 

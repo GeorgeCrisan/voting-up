@@ -17,6 +17,7 @@ const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersroute
 var User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
 let port = 8333;
 /* set up server */
+
 dotenv.config();
 const app = express();
 var store = new MongoDBStore({
@@ -32,7 +33,7 @@ function(error) {
   store.on('error', function(error) {
     if(error)
       console.log(error + 'from store on error bit');
-  });  
+  });
 
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -43,7 +44,7 @@ app.use(require('express-session')({
 
 app.use(passport.initialize());
 app.use(passport.session());
- 
+
 
 
 app.use(morgan('dev'));
@@ -57,7 +58,7 @@ app.use(express.static(path.join(__dirname + '/client/build/')));
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGOLAB_URI,{promiseLibrary: require('bluebird')} );
 
-var db = mongoose.connection; 
+var db = mongoose.connection;
 
 
 
@@ -73,10 +74,10 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use(pollrouter);
-app.use(usersrouter); 
+app.use(usersrouter);
 
 app.get('/',(req,res)=>{
-    
+
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
 
 });

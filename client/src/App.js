@@ -6,7 +6,7 @@ import {Route, Switch} from 'react-router-dom';
 import EntryPage from './Components/entrypage.js';
 import Login from './Components/logincomp.js';
 import CreateAccount from './Components/CreateAccount.js';
-import './app.css';
+import './App.css';
 
 
 
@@ -30,20 +30,20 @@ class MyApp extends React.Component {
         }
 
         handleClose(){
-            
-            
+
+
             this.setState({showModalAuth: false});
-            
+
         }
- 
+
         handleShow(){
 
-            
+
             this.setState({showModalAuth: true});
 
         }
- 
-  
+
+
        confirmUserIsLogged(){
            console.log('this is runing to confirm loggedin');
            this.setState({userIsLogged: true});
@@ -74,15 +74,15 @@ class MyApp extends React.Component {
                                 tempArray.push(el);
                             });
 
-                          this.setState({loadedPolls: tempArray});     
+                          this.setState({loadedPolls: tempArray});
 
                      });
 
                 }).catch(error=>{
                     console.log(error + ' Try again!');
                 });
- 
-      }  
+
+      }
 
       BodyAppWP(){
           return(<BodyApp pollPosts={this.state.loadedPolls} users={this.state.loadedUsers} />);
@@ -93,7 +93,7 @@ class MyApp extends React.Component {
       }
 
       CreateAccountF(){
-    
+
          return(<CreateAccount confirmUserIsLogged={this.confirmUserIsLogged} show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
 
         }
@@ -104,11 +104,11 @@ class MyApp extends React.Component {
 
 
    render(){
-       
+
     return(
-         
+
         <div className="base-style">
-        
+
         <Header confirmLogOut={this.confirmLogOut} SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow} userIsLogged={this.state.userIsLogged}/>
         <Switch>
         <Route path='/polls' render={this.BodyAppWP}/>
@@ -117,9 +117,9 @@ class MyApp extends React.Component {
         <Route path='/authCA' render={this.CreateAccountF } />
         </Switch>
         <Footer />
-        
-        </div>);   
-    };    
+
+        </div>);
+    };
 }
 
 
