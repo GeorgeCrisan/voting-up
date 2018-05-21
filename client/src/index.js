@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import MyApp from './App.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
-//de la inceput ..dute deskop
+//de la inceput ..dute deskop ... du-te te rog surf napoi
 
 
 import registerServiceWorker from './registerServiceWorker';
