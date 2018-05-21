@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import MyApp from './App.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
-//cred ca s-a rezolvat problema -- sigur s-a rezolvat
-
+//deja e enervant 
 
 import registerServiceWorker from './registerServiceWorker';
 

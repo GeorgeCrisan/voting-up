@@ -1,6 +1,6 @@
 .header-global {
   margin: auto;
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
