@@ -11,9 +11,8 @@ const cors = require('cors');
 const database = require(path.join(__dirname + '/my_modules/database.js'));
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
-const Poll = require(path.join(__dirname + '/my_modules/models/poll-model.js'));
+const MongoDBStore = require('connect-mongodb-session')(session);;
+const pollrouter = require(path.join(__dirname + '/my_modules/routes/pollrouter.js'));
 const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
 let port = 8333;
 /* set up server */
@@ -54,30 +53,25 @@ app.use(express.static(path.join(__dirname + '/client/build/')));
 
 
 /*database code lines , later to move in they own module comonjs */
-mongoose.connect(process.env.MONGOLAB_URI ); // exposed for heroku only to store away after
+mongoose.Promise = require('bluebird');
+mongoose.connect(process.env.MONGOLAB_URI,{promiseLibrary: require('bluebird')} );
+
 var db = mongoose.connection; 
 
 
 
-db.on('error', console.error.bind(console,'connection error:'));
+db.on('error', console.error.bind(console,'connection error: database did not open for some reason!'));
 
 db.once('open',function(){
-    console.log('running the db merge');
+    console.log('databse connection enstablished and open!');
 });
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/allpolls',(req,res)=>{
-       //  console.log(req);
-       Poll.find((err,elements)=>{
-           if(err) console.log(err + 'Got this error' + err);
-           res.send(elements);
-       });
 
-});
-
+app.use(pollrouter);
 app.use(usersrouter); 
 
 app.get('/',(req,res)=>{

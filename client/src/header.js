@@ -9,23 +9,29 @@ class Header extends React.Component {
        super(props);
 
        this.runLogOut = this.runLogOut.bind(this);
-   }
 
+   }
+   
    runLogOut(){
-     return   this.props.confirmLogOut;
+     
 
      fetch('/logout',{
-        method:'POST',
+        method:'GET',
         headers:{
          'Accept': 'application/json',
          'Content-Type': 'application/json',
         }
     }).then(res=>{
         res.json().then((datares)=>{
-              console.log(datares);
+              console.log(datares,'am terminat aici bro');
+              if(datares.message ==='Logout-success!')
+                    this.props.confirmLogOut();
+              
+        }).then(()=>{
+            
         });
    });
-
+   
 }
 
    render(){
@@ -46,7 +52,7 @@ if(!this.props.userIsLogged){
                     <h3> Vote up! Create polls! </h3>
                    <div className='header-body'>
                    
-                   <Button bsStyle="danger" onClick={this.runLogOut()} >  Sign Out </Button>
+                   <Button bsStyle="danger" onClick={this.runLogOut} >  Sign Out </Button>
                    <Link to='/polls'><Button bsStyle="info"  >  Poll list </Button> </Link>
                    
                    </div>
