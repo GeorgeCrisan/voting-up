@@ -14,6 +14,7 @@ const passport = require('passport');
 const MongoDBStore = require('connect-mongodb-session')(session);;
 const pollrouter = require(path.join(__dirname + '/my_modules/routes/pollrouter.js'));
 const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
+var User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
 let port = 8333;
 /* set up server */
 dotenv.config();
