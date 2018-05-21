@@ -8,7 +8,7 @@
 .infos-style {
   display: flex;
   justify-content: space-around;
-  width: 50%;
+  width: 70%;
   flex-flow: row wrap;
   margin: 30px auto 0 auto; }
   .infos-style p {
@@ -29,7 +29,7 @@
   color: white;
   justify-content: space-around;
   flex-flow: row wrap;
-  width: 50%;
+  width: 70%;
   margin: 10px auto; }
 
 .logo-style {

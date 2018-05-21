@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import MyApp from './App.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
-//deja e enervant 
+
 
 import registerServiceWorker from './registerServiceWorker';
 
