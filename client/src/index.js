@@ -6,6 +6,7 @@ import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
+
 WebFont.load({
     google: {
       families: ['Gugi','Titillium Web:300,400,700', 'sans-serif']

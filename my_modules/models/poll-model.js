@@ -10,8 +10,7 @@ const PollSchema = new Schema({
           required: true
       }, 
       createdBy: {
-          type: String,
-           ref: 'User'
+          type: String
         },
         options:{
             type: Array,
@@ -21,7 +20,7 @@ const PollSchema = new Schema({
             type: Date,
             default: Date.now
         },
-        voteNumber:{
+        voteNumbers:{
             type: Number,
             default: 0
         },

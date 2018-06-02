@@ -16,7 +16,6 @@ router.get('/allpolls',(req,res,next)=>{
 
 });
 
-
 router.post('/createpoll',(req,res,next)=>{
     Poll.create(req.body, function (err, post) {
         if (err) return next(err);

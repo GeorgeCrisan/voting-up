@@ -5,13 +5,10 @@ const dotenv = require('dotenv');
 const faicon = require('serve-favicon');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-var session = require('express-session');
 const path = require('path');
 const cors = require('cors');
-const database = require(path.join(__dirname + '/my_modules/database.js'));
 const LocalStrategy = require('passport-local').Strategy;
 const passport = require('passport');
-const MongoDBStore = require('connect-mongodb-session')(session);;
 const pollrouter = require(path.join(__dirname + '/my_modules/routes/pollrouter.js'));
 const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
 var User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
@@ -20,30 +17,10 @@ let port = 8333;
 
 dotenv.config();
 const app = express();
-var store = new MongoDBStore({
-    uri: process.env.MONGOLAB_URI ,
-        databaseName: 'voteupdb',
-        collection: 'mySessions'
-},
-function(error) {
-    if(error)
-      console.log(error + 'from store');
-  });
 
-  store.on('error', function(error) {
-    if(error)
-      console.log(error + 'from store on error bit');
-  });
-
-app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-    store: store
-}));
 
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 
 
@@ -86,11 +63,20 @@ app.get('/',(req,res)=>{
 
 
 
-
+//cath 404 and handle to error handler
 app.use((req,res,next)=>{
-      let err = new Error('Eroor not found');
+      let err = new Error('Error not found');
       err.status = 404;
       next(err);
+});
+
+//error handler 
+app.use((err,req,res,next)=>{
+
+    if(err){
+        res.status = err.status;
+        res.json({'error':err});
+    }
 });
 
 
