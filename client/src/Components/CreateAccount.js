@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './logincomp.sass';
 import mgdpng from './mgb.png';
 import expng from './ex.png';
 import rjspng from './rjs.png';
@@ -14,7 +13,8 @@ class CreateAccount extends Component {
          this.state = {
                username: '',
                password: '',
-               error:{errorMess: 'Username and password must have 6 characters or more. '},
+               error:{errorMess: 'Username and password must have 6 characters or more. ',
+                      errorMessUserPresent: 'User already existent. Try create new credentials.'},
                LandV: false
          }
         this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -23,6 +23,7 @@ class CreateAccount extends Component {
         this.getValidationStateUN = this.getValidationStateUN.bind(this);
         this.CAbuttonConditions = this.CAbuttonConditions.bind(this);
         this.validcondition = this.validcondition.bind(this);
+
 
     }
 
@@ -61,6 +62,8 @@ class CreateAccount extends Component {
            
     }
 
+
+
     validcondition(para){
       if(para === 'password'){
         if(this.state.password.length < 6){
@@ -84,52 +87,49 @@ class CreateAccount extends Component {
         return false;
        } 
 
-        let data = {
+        var dataT = {
           username: this.state.username,
           password: this.state.password     
      }
 
-        fetch('/authCA',{
+        fetch('/register',{
             method:'POST',
             headers:{
              'Accept': 'application/json',
              'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(dataT)
 
         }).then(res=>{
 
                  res.json().then(data=>{
     
-                 console.log(data);
+                 console.log(data , 'asta primesc dupa ce am create contul');
                   if(data.success === true){
 
-                        // console.log('now we can login');
+                         console.log('now we can login');
 
-                         var user = {
-                           username: this.state.username,
-                           password: this.state.password
-                                    };
-
-                                 console.log(user);   
                          fetch('/login',{
                              method:'POST',
                              headers:{
                               'Accept': 'application/json',
                               'Content-Type': 'application/json',
                              },
-                             body: JSON.stringify(user)
+                             body: JSON.stringify(dataT)
                          }).then(res=>{
                                  res.json().then(recdata=>{
-                                  //console.log('am primit napoi de la server in create account login  ', recdata);
-                                   if(recdata.confirm === 'success-login'){
-                                     this.props.confirmUserIsLogged();
+ 
+                                   if(recdata.success === true){
+                                     localStorage.setItem('jwtTokenFS',recdata.token);
+                                     this.props.confirmUserIsLogged(recdata.token);
                                    }
                                  });
                                
                          });
                   } else if(data.success === false){
-                     console.log(data.msg);
+                     alert('Create user with different credentials. User already existent.');
+
+                    
                   }
               });
 

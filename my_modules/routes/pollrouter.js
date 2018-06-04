@@ -14,11 +14,12 @@ router.get('/allpolls',(req,res,next)=>{
         res.send(elements);
     });
 
-});
+}); 
 
 router.post('/createpoll',(req,res,next)=>{
     Poll.create(req.body, function (err, post) {
         if (err) return next(err);
+        console.log(post);
         res.json(post);
       });       
 

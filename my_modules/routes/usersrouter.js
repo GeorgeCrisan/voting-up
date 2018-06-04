@@ -1,34 +1,72 @@
+//query express in order to use router and path module
 const express = require('express');
-const path = require('path');
-var passport = require('passport');
-var User = require(path.join('../models/user-model.js'));
 var router = express.Router();
-const Verify = require(path.join('../verify.js'));
+const path = require('path');
+const passport = require('passport');
+const dotenv = require('dotenv');
+var jwt = require('jsonwebtoken');
+dotenv.config();
+
+//const mongoose = require('mongoose');
+
+
+// import user model
+var User = require(path.join('../models/user-model.js'));
+const appPassport = require(path.join('../routes/passport.js'))(passport);
+
 //register new user 
-router.post('/authCA', function(req,res,next){
-       User.register(new User({username: req.body.username }),req.body.password,(err,account)=>{
-            if(err)
-               return res.json({succes: false , msg: 'user already existing.' });
-      
-               
-            passport.authenticate('local')(req,res,()=>{
-            res.json({success: true, msg: 'Scuccesful created new user.' });
-        });
+router.post('/register', function(req,res){
+    console.log(req.body.username, 'username pentru register in body');
+                  if(!req.body.username || !req.body.password){
+                      res.json({success: false, msg: 'Please send username and password from client'});
+                  } 
+              var newUser = new User({
+                    username: req.body.username,
+                    password: req.body.password
+              });
+              
+              console.log(newUser);
+               newUser.save(function(err){
+                         if(err)
+                            return res.json({success: false, msg:'Username already present.'});
 
-    
+                         res.json({success: true, msg: 'Created new user!'});
+
+                             
+               });
+          
+});
+
+//start of route post login//
+router.post('/login',function(req,res,next){
+    User.findOne({
+        username: req.body.username
+        
+    }, function(err,user){
+
+             if(err){
+                next(err);
+             } 
              
-       });     
+             if(!user) {
+               res.status(401).json({success:false, from:'nouser', msg:'Authentication failed. User not found!'});
+             } else {
+                 user.comparePassword(req.body.password,function(err,isMatch){
+                     if(isMatch && !err){
+                         var token = jwt.sign(user.toJSON(), process.env.SECRET_JWT);
+                         res.json({success: true, token: 'JWT ' + token});
+                     } else {
+                         res.status(401).json({success: false, from: 'wrongpass', msg: 'Wrong Password. Failed auth!'});
+                     }
+                 });
+             }
+    }); 
 });
 
-router.post('/login',(req,res,next)=>{
-    
-
-
-});
+// logout route
 
 router.get('/logout',(req,res,next)=>{
        console.log('run logout on server');
-       req.logout();
        res.status(200).send({ message: 'Logout-success!'});
 });
 

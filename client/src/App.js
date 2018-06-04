@@ -6,6 +6,7 @@ import {Route, Switch} from 'react-router-dom';
 import EntryPage from './Components/entrypage.js';
 import Login from './Components/logincomp.js';
 import CreateAccount from './Components/CreateAccount.js';
+import ErrorContainer from './Components/ErrorContainer.js';
 import './App.css';
 
 
@@ -16,7 +17,8 @@ class MyApp extends React.Component {
               this.state = {
                      loadedPolls : [],
                      showModalAuth: false,
-                     userIsLogged: false
+                     userIsLogged: false,
+                     token:  null
 
 
               }
@@ -27,6 +29,7 @@ class MyApp extends React.Component {
           this.CreateAccountF = this.CreateAccountF.bind(this);
           this.confirmUserIsLogged = this.confirmUserIsLogged.bind(this);
           this.confirmLogOut = this.confirmLogOut.bind(this);
+          this.ErrorHandeling = this.ErrorHandeling.bind(this);
         }
 
         handleClose(){
@@ -44,18 +47,30 @@ class MyApp extends React.Component {
         }
 
 
-       confirmUserIsLogged(){
-           console.log('this is runing to confirm loggedin');
-           this.setState({userIsLogged: true});
+       confirmUserIsLogged(paramCUIL){
+
+           this.setState({userIsLogged: true, token: paramCUIL});
+
        }
 
        confirmLogOut(){
-           this.setState({userIsLogged: false});
+           this.setState({userIsLogged: false, token: null});
+           localStorage.removeItem('jwtTokenFS');
+           //window.location.reload();
+
        }
 
 
 
       componentDidMount(){
+                       if(localStorage.getItem('jwtTokenFS')){
+                                var gotToken = localStorage.getItem('jwtTokenFS');
+                              console.log(gotToken, 'am token at trebuii sa stea logat acu');
+                           this.setState({userIsLogged: true,
+                            token: gotToken});
+                       }
+                              
+
                 fetch('/allpolls',{
                     method: 'GET',
                     headers:{
@@ -99,7 +114,9 @@ class MyApp extends React.Component {
         }
 
 
-
+      ErrorHandeling(){
+          return(<ErrorContainer />);
+      }
 
 
 
@@ -114,7 +131,8 @@ class MyApp extends React.Component {
         <Route path='/polls' render={this.BodyAppWP}/>
         <Route exact path='/' component={EntryPage} />
         <Route path='/authSignIn' render={this.Login}/>
-        <Route path='/authCA' render={this.CreateAccountF } />
+        <Route path='/register' render={this.CreateAccountF } />
+        <Route path='/error' render={this.ErrorHandeling }/>
         </Switch>
         <Footer />
 

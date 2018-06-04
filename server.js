@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 const LocalStrategy = require('passport-local').Strategy;
-const passport = require('passport');
+
 const pollrouter = require(path.join(__dirname + '/my_modules/routes/pollrouter.js'));
 const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
 var User = require(path.join(__dirname + '/my_modules/models/user-model.js'));
@@ -18,9 +18,6 @@ let port = 8333;
 dotenv.config();
 const app = express();
 
-
-app.use(passport.initialize());
-//app.use(passport.session());
 
 
 
@@ -45,9 +42,8 @@ db.once('open',function(){
     console.log('databse connection enstablished and open!');
 });
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
+
 
 
 app.use(pollrouter);
@@ -79,5 +75,5 @@ app.use((err,req,res,next)=>{
     }
 });
 
-
+  
 app.listen( process.env.PORT || port, ()=> console.log(`runing at ${ process.env.PORT || port} and ${process.env.MONGOLAB_URI}`));

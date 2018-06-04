@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import './logincomp.sass';
 import mgdpng from './mgb.png';
 import expng from './ex.png';
@@ -14,8 +16,10 @@ class Login extends Component {
           this.state= {
               username: '',
               password: '',
-              error:{errorMess: 'Username and password must have 6 characters or more. '},
-              LandV: false
+              error:{errorMess: 'Username and password must have 6 characters or more. ',
+                     errorNoUser: 'Username is no recognized. Try again.'},    
+              LandV: false,
+              redirect: false
           }
 
           this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -32,6 +36,7 @@ class Login extends Component {
       if(this.state.username.length < 6 || this.state.password.length < 6){
        return false;
       } 
+
       return true;
         
  }
@@ -82,25 +87,33 @@ class Login extends Component {
       if(this.state.password.length < 6 || this.state.username.length < 6)
           return false;
 
-      let data = {
+      var userT = {
             username: this.state.username,
             password: this.state.password
       }    
+ 
      fetch('/login',{
        method: 'POST',
-       Headers: {
+       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
      },
-     body: JSON.stringify(data)
+     body: JSON.stringify(userT)
      }).then(res=>{
 
          res.json().then(data=>{
 
-           console.log('am primit napoi de la server in login+ ' , data);
-           if(data.confirm === 'success-login'){
-             console.log(data.confirm);
-            this.props.confirmUserIsLogged();
+           if(data.success === true){
+            console.log(data.token, ' acum pot confirma in state mai sus ca sunt logat');
+            localStorage.setItem('jwtTokenFS',data.token);
+            this.props.confirmUserIsLogged(data.token);
+          } else if (data.success === false){
+                if(data.from === 'nouser'){
+             alert('User not found! Check your spelling and try again or create new account!');
+             this.setState({redirect: true});
+
+                } else if (data.from === 'wrongpass')
+               alert('Wrong Password! Check your spelling and try again or create new account!');  
           }
 
          });
@@ -112,7 +125,12 @@ class Login extends Component {
 
 
    render(){
-
+    const { redirect } = this.state;
+    
+    if (redirect) {
+      return <Redirect to='/error'/>;
+    }
+    
     const LogInForm = (<Form onSubmit={this.onFormSubmit}  horizontal>
       <FormGroup controlId="formHorizontalUsername" validationState={this.validateStateForm('un')}>
           <Col componentClass={ControlLabel} sm={2}>
