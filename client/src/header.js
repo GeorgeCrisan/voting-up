@@ -39,7 +39,7 @@ if(!this.props.userIsLogged){
                    <Link to='/'><Button bsStyle="danger"  onClick={this.runLogOut} >  Sign Out </Button></Link>
                    <Link to='/polls'><Button bsStyle="info"  >  Poll list </Button> </Link>
                    <Link to='/mypolls'><Button bsStyle="info"> My Polls </Button></Link>
-                   <Link to='/createnewpoll'><Button bsStyle="info"> Create Poll </Button></Link>
+                   <Link to='/createnewpoll'><Button bsStyle="info" onClick={this.props.handleShow}> Create Poll </Button></Link>
                    
                    </div>
                 </div>)

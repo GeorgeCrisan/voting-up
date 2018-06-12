@@ -47,7 +47,7 @@ class ModalPoll extends Component {
               <h4>Options:</h4>
               {this.props.elementoptions.map((el,i)=>{
                    return(<div key={i+12}>
-                       <p><a>Option {i+1}:  {el.value}</a></p>
+                       <p><a>Option {i+1}:  {el.optionBody}</a></p>
                        <p>Number of votes: {el.votes}</p>
                    </div>)
 

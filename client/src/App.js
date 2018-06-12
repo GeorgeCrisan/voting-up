@@ -1,12 +1,15 @@
 import React from 'react';
 import Header from './header.js';
-import BodyApp from './body.js';
+import AllPollsComponent from './allpolls.js';
 import Footer from './footer.js';
 import {Route, Switch} from 'react-router-dom';
 import EntryPage from './Components/entrypage.js';
 import Login from './Components/logincomp.js';
 import CreateAccount from './Components/CreateAccount.js';
-import ErrorContainer from './Components/ErrorContainer.js';
+import ErrorContainerLogin from './Components/ErrorContainerLogin.js';
+import ErrorContainerCA from './Components/ErrorContainerCA.js';
+import ErrorUnauthorized from './Components/errorUnauthorized.js';
+import CreatePollComponent from './Components/createpoll.js';
 import './App.css';
 
 
@@ -22,14 +25,17 @@ class MyApp extends React.Component {
 
 
               }
-          this.BodyAppWP = this.BodyAppWP.bind(this);
+          this.allpolls = this.allpolls.bind(this);
           this.Login = this.Login.bind(this);
           this.handleShow = this.handleShow.bind(this);
           this.handleClose = this.handleClose.bind(this);
           this.CreateAccountF = this.CreateAccountF.bind(this);
           this.confirmUserIsLogged = this.confirmUserIsLogged.bind(this);
           this.confirmLogOut = this.confirmLogOut.bind(this);
-          this.ErrorHandeling = this.ErrorHandeling.bind(this);
+          this.ErrorHandlingLogin = this.ErrorHandlingLogin.bind(this);
+          this.ErrorHandlingCA = this.ErrorHandlingCA.bind(this);
+          this.createPollHandler = this.createPollHandler.bind(this);
+          this.ErrorNotAuth = this.ErrorNotAuth.bind(this);
         }
 
         handleClose(){
@@ -38,7 +44,8 @@ class MyApp extends React.Component {
             this.setState({showModalAuth: false});
 
         }
-
+        
+        
         handleShow(){
 
 
@@ -56,7 +63,7 @@ class MyApp extends React.Component {
        confirmLogOut(){
            this.setState({userIsLogged: false, token: null});
            localStorage.removeItem('jwtTokenFS');
-           //window.location.reload();
+         //  window.location.reload();
 
        }
 
@@ -65,42 +72,14 @@ class MyApp extends React.Component {
       componentDidMount(){
                        if(localStorage.getItem('jwtTokenFS')){
                                 var gotToken = localStorage.getItem('jwtTokenFS');
-                              console.log(gotToken, 'am token at trebuii sa stea logat acu');
                            this.setState({userIsLogged: true,
                             token: gotToken});
                        }
                               
-
-                fetch('/allpolls',{
-                    method: 'GET',
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                     }
-                }).then((response)=>{
-
-                     response.json().then((data)=>{
-
-                            console.log('data loaded in the componentDidMount the polls');
-
-                            var tempArray = [];
-
-                            data.forEach((el)=>{
-                                tempArray.push(el);
-                            });
-
-                          this.setState({loadedPolls: tempArray});
-
-                     });
-
-                }).catch(error=>{
-                    console.log(error + ' Try again!');
-                });
-
       }
 
-      BodyAppWP(){
-          return(<BodyApp pollPosts={this.state.loadedPolls} users={this.state.loadedUsers} />);
+      allpolls(){
+          return(<AllPollsComponent  />);
       }
 
       Login(){
@@ -113,11 +92,21 @@ class MyApp extends React.Component {
 
         }
 
+     ErrorHandlingCA(){
+         return (<ErrorContainerCA  />)
+     } 
 
-      ErrorHandeling(){
-          return(<ErrorContainer />);
+     ErrorNotAuth(){
+         return (<ErrorUnauthorized logout={this.confirmLogOut} />);
+     }
+        
+      ErrorHandlingLogin(){
+          return(<ErrorContainerLogin />);
       }
-
+     
+      createPollHandler(){
+          return(<CreatePollComponent token={this.state.token} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
+      }
 
 
    render(){
@@ -126,13 +115,16 @@ class MyApp extends React.Component {
 
         <div className="base-style">
 
-        <Header confirmLogOut={this.confirmLogOut} SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow} userIsLogged={this.state.userIsLogged}/>
+        <Header confirmLogOut={this.confirmLogOut} SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow}  userIsLogged={this.state.userIsLogged}/>
         <Switch>
-        <Route path='/polls' render={this.BodyAppWP}/>
+        <Route path='/polls' render={this.allpolls}/>
         <Route exact path='/' component={EntryPage} />
         <Route path='/authSignIn' render={this.Login}/>
         <Route path='/register' render={this.CreateAccountF } />
-        <Route path='/error' render={this.ErrorHandeling }/>
+        <Route path='/errorLogin' render={this.ErrorHandlingLogin }/>
+        <Route path='/errorNotAuthorized' render={this.ErrorNotAuth }/>
+        <Route path='/error-create-account' render={this.ErrorHandlingCA} />
+        <Route path='/createnewpoll' render={this.createPollHandler} />
         </Switch>
         <Footer />
 

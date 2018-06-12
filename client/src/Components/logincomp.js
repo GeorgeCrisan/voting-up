@@ -18,8 +18,8 @@ class Login extends Component {
               password: '',
               error:{errorMess: 'Username and password must have 6 characters or more. ',
                      errorNoUser: 'Username is no recognized. Try again.'},    
-              LandV: false,
-              redirect: false
+              token: false,
+              redirect: false,
           }
 
           this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -104,16 +104,17 @@ class Login extends Component {
          res.json().then(data=>{
 
            if(data.success === true){
-            console.log(data.token, ' acum pot confirma in state mai sus ca sunt logat');
+            this.setState({username:'',password: ''})
             localStorage.setItem('jwtTokenFS',data.token);
             this.props.confirmUserIsLogged(data.token);
           } else if (data.success === false){
                 if(data.from === 'nouser'){
-             alert('User not found! Check your spelling and try again or create new account!');
+
              this.setState({redirect: true});
 
                 } else if (data.from === 'wrongpass')
-               alert('Wrong Password! Check your spelling and try again or create new account!');  
+
+               this.setState({redirect: true});  
           }
 
          });
@@ -122,13 +123,21 @@ class Login extends Component {
 
   }
 
-
+  
 
    render(){
     const { redirect } = this.state;
-    
+
+
     if (redirect) {
-      return <Redirect to='/error'/>;
+
+
+      return <Redirect to='/errorLogin'/>;
+
+    } else if (this.state.token){
+
+      return <Redirect to='/polls'/>;
+
     }
     
     const LogInForm = (<Form onSubmit={this.onFormSubmit}  horizontal>
@@ -138,6 +147,7 @@ class Login extends Component {
           </Col>
           <Col sm={10}>
             <FormControl autoComplete="off" type="text" value={this.state.username} placeholder="Username" name="username" onChange={this.handleChangeUN} />
+            <FormControl.Feedback />
             <p>  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
           </Col>
         </FormGroup>  
@@ -150,6 +160,7 @@ class Login extends Component {
           </Col>
           <Col sm={10}>
             <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
+            <FormControl.Feedback />
             <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
             </Col>
         </FormGroup>

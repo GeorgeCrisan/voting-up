@@ -1,4 +1,5 @@
 // query in vars jvt strategy and export method
+const passport = require('passport');
 const dotenv = require('dotenv');
 const path = require('path');
 var JwtStrategy = require('passport-jwt').Strategy;
@@ -9,25 +10,26 @@ dotenv.config();
 var User = require(path.join('../models/user-model.js'));
 var securitySettings = process.env.SECRET_JWT;
 
-function passportStrategyJwt(passport){
+module.exports = function passportStrategyJwt(){
     
     var opts = {};
-    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
     opts.secretOrKey = securitySettings;
     passport.use(new JwtStrategy(opts,(jwt_payload, done)=>{
-             User.findOne({_id: jwt_payload._id},function(err,user){
-                 if (err) 
-                     return done(err,false);
+             User.findById(jwt_payload._id,function(err,user){
+                 if (err) {
+                    return done(err,false);
+                 }
+                     
                   if(user){
-                      console.log('de aici avem user');
-                    console.log(user);
                     done(null, user);
                 }
-                  else 
-                     done(null, false);    
+                  else {
+                    done(null, false); 
+                  }
+                        
              });   
 
     }));
 };
 
-module.exports = passportStrategyJwt;

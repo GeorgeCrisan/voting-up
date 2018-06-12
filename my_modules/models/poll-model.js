@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 
 const PollSchema = new Schema({
-      topic: {
+      question: {
           type: String,
           required: true
       }, 
@@ -13,7 +13,7 @@ const PollSchema = new Schema({
           type: String
         },
         options:{
-            type: Array,
+            type: [{optionBody: String , votes: Number}],
             required: true 
         },
         postTime: {

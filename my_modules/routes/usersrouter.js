@@ -2,7 +2,6 @@
 const express = require('express');
 var router = express.Router();
 const path = require('path');
-const passport = require('passport');
 const dotenv = require('dotenv');
 var jwt = require('jsonwebtoken');
 dotenv.config();
@@ -12,11 +11,9 @@ dotenv.config();
 
 // import user model
 var User = require(path.join('../models/user-model.js'));
-const appPassport = require(path.join('../routes/passport.js'))(passport);
 
 //register new user 
 router.post('/register', function(req,res){
-    console.log(req.body.username, 'username pentru register in body');
                   if(!req.body.username || !req.body.password){
                       res.json({success: false, msg: 'Please send username and password from client'});
                   } 
@@ -25,10 +22,9 @@ router.post('/register', function(req,res){
                     password: req.body.password
               });
               
-              console.log(newUser);
                newUser.save(function(err){
                          if(err)
-                            return res.json({success: false, msg:'Username already present.'});
+                            return res.json({success: false, from: 'userduplicate', msg:'Username already present.'});
 
                          res.json({success: true, msg: 'Created new user!'});
 
@@ -53,7 +49,7 @@ router.post('/login',function(req,res,next){
              } else {
                  user.comparePassword(req.body.password,function(err,isMatch){
                      if(isMatch && !err){
-                         var token = jwt.sign(user.toJSON(), process.env.SECRET_JWT);
+                         var token = jwt.sign(user.toJSON(), process.env.SECRET_JWT,{expiresIn:'1h'});
                          res.json({success: true, token: 'JWT ' + token});
                      } else {
                          res.status(401).json({success: false, from: 'wrongpass', msg: 'Wrong Password. Failed auth!'});

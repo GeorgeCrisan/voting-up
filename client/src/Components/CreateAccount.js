@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router';
 import mgdpng from './mgb.png';
 import expng from './ex.png';
 import rjspng from './rjs.png';
@@ -15,7 +16,8 @@ class CreateAccount extends Component {
                password: '',
                error:{errorMess: 'Username and password must have 6 characters or more. ',
                       errorMessUserPresent: 'User already existent. Try create new credentials.'},
-               LandV: false
+               token: false,
+               redirect: false
          }
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleChangeUN = this.handleChangeUN.bind(this);
@@ -104,7 +106,6 @@ class CreateAccount extends Component {
 
                  res.json().then(data=>{
     
-                 console.log(data , 'asta primesc dupa ce am create contul');
                   if(data.success === true){
 
                          console.log('now we can login');
@@ -120,6 +121,7 @@ class CreateAccount extends Component {
                                  res.json().then(recdata=>{
  
                                    if(recdata.success === true){
+                                    this.setState({username: '', password:'', token: data.token});
                                      localStorage.setItem('jwtTokenFS',recdata.token);
                                      this.props.confirmUserIsLogged(recdata.token);
                                    }
@@ -127,7 +129,8 @@ class CreateAccount extends Component {
                                
                          });
                   } else if(data.success === false){
-                     alert('Create user with different credentials. User already existent.');
+                     //alert('Create user with different credentials. User already existent.');
+                     this.setState({redirect: true });
 
                     
                   }
@@ -138,6 +141,17 @@ class CreateAccount extends Component {
 
    render(){
 
+      const { redirect } = this.state; 
+      if(redirect){
+
+         return <Redirect to='/error-create-account'/> 
+      } 
+      else if (this.state.token){
+
+        return <Redirect to='/polls'/>;
+        
+      }
+
 
       const CreateAccount = (<Form onSubmit={this.onFormSubmit}  horizontal>
       <FormGroup controlId="formHorizontalUsername" validationState={this.getValidationStateUN('un')}>
@@ -146,6 +160,7 @@ class CreateAccount extends Component {
           </Col>
           <Col sm={10}>
             <FormControl autoComplete="off" type="text" value={this.state.username} placeholder="Username" name="username" onChange={this.handleChangeUN} />
+            <FormControl.Feedback />
             <p>  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
           </Col>
         </FormGroup>  
@@ -157,8 +172,10 @@ class CreateAccount extends Component {
             Password
           </Col>
           <Col sm={10}>
-            <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
-            <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
+            
+          <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
+          <FormControl.Feedback />
+          <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
             </Col>
         </FormGroup>
       
@@ -169,6 +186,7 @@ class CreateAccount extends Component {
           <Button onClick={this.CAbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Sign Up</Button> 
           </Col>
         </FormGroup>
+        
       </Form>);
 
      return(<div>

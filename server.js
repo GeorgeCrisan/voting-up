@@ -7,7 +7,9 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
-const LocalStrategy = require('passport-local').Strategy;
+let passport = require('passport');
+let passportStrategyJwt = require(path.join(__dirname+ '/my_modules/routes/passport.js'));
+
 
 const pollrouter = require(path.join(__dirname + '/my_modules/routes/pollrouter.js'));
 const usersrouter = require(path.join(__dirname + '/my_modules/routes/usersrouter.js'));
@@ -43,11 +45,11 @@ db.once('open',function(){
 });
 
 
+passportStrategyJwt();
 
-
-
-app.use(pollrouter);
 app.use(usersrouter);
+app.use(pollrouter);
+
 
 app.get('/',(req,res)=>{
 
@@ -59,19 +61,14 @@ app.get('/',(req,res)=>{
 
 
 
-//cath 404 and handle to error handler
-app.use((req,res,next)=>{
-      let err = new Error('Error not found');
-      err.status = 404;
-      next(err);
-});
+
 
 //error handler 
 app.use((err,req,res,next)=>{
 
     if(err){
         res.status = err.status;
-        res.json({'error':err});
+        res.json({'error':err ,middleware: 'error end'});
     }
 });
 
