@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname + '/client/build/')));
 
 /*database code lines , later to move in they own module comonjs */
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://adminrdp:rdpadmin@ds253959.mlab.com:53959/voteupdb',{promiseLibrary: require('bluebird')} );
+mongoose.connect(process.env.MONGOLAB_URI,{promiseLibrary: require('bluebird')} );
 
 var db = mongoose.connection;
 
