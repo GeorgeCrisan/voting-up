@@ -3,3 +3,62 @@
 
 .modal-container .modal, .modal-container .modal-backdrop {
   position: absolute; }
+
+.modal-body a {
+  color: black; }
+  .modal-body a:hover {
+    color: black;
+    cursor: pointer;
+    text-decoration: none; }
+
+.modal-body h4 {
+  font-family: 'Gugi', sans-serif;
+  color: black; }
+
+.optionsToClick {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+  text-align: center;
+  height: 35px;
+  margin: 10px auto auto auto;
+  border-radius: 10px;
+  width: 80%; }
+  .optionsToClick p {
+    color: white;
+    font-family: 'Gugi', sans-serif;
+    margin-top: 8px;
+    margin-left: 20px;
+    font-size: 16px; }
+    .optionsToClick p:last-child {
+      color: white;
+      margin-left: 40px; }
+
+.bar {
+  fill: steelblue; }
+
+.bar:hover {
+  fill: blue; }
+
+.axis--x path {
+  display: none; }
+
+.chartvotes {
+  width: 570px;
+  margin: 0px 0 20px 0;
+  display: flex;
+  flex-flow: column nowrap; }
+  .chartvotes .bar {
+    background: #28B463;
+    background-image: linear-gradient(120deg, #84fab0 0%, #8f53f4 100%);
+    margin-top: 10px;
+    color: black;
+    font-size: 14px;
+    font-family: 'Gugi', sans-serif;
+    width: 100%;
+    border-radius: 10px; }
+    .chartvotes .bar .vote {
+      position: relative;
+      top: 3px;
+      left: 10px;
+      min-width: 400px; }

@@ -169,7 +169,7 @@ class Login extends Component {
       
         <FormGroup>
           <Col smOffset={2} sm={10}>
-          <Button onClick={this.LGbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Log In</Button> 
+          <Button bsStyle='success' onClick={this.LGbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Log In</Button> 
           </Col>
         </FormGroup>
       </Form>);
@@ -186,7 +186,7 @@ class Login extends Component {
               {LogInForm }
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.handleClose}>Close</Button>
+          <Button bsStyle='danger' onClick={this.props.handleClose}>Close</Button>
         </Modal.Footer>
       </Modal>
       <div className='entry-page'>

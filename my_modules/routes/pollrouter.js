@@ -18,6 +18,17 @@ router.get('/allpolls',(req,res,next)=>{
 
 }); 
 
+router.get('/mypolls',passport.authenticate('jwt',{session:false}),function(req,res,next){
+          let query = req.user.username;
+        Poll.find({createdBy: query},function(err,docs){
+            if(err){
+                return next(err);
+            } 
+            res.send(docs);
+        });
+
+});
+
 router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(req,res,next){
 
             let dataToPass = {
@@ -33,6 +44,20 @@ router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(
           res.json({success: true, msg: 'Poll created!'});
         });         
 
+});
+
+router.post('/updatePolls',function(req,res,next){
+
+            let query = {_id:req.body._id};
+            Poll.findOneAndUpdate(query,{$set:req.body},{new: true},function(err,data){
+                      if(err)
+                         next(err);
+                       else {
+                        res.json({success: true, msg: 'Full update resolved'});
+                       }   
+            });
+
+            
 });
 
 

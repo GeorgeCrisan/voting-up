@@ -24,10 +24,10 @@ if(!this.props.userIsLogged){
             <div className='header-global'>  
                 <h3> Vote up! Create polls! </h3>
                <div className='header-body'>
+               <Link to='/polls'><Button className='defaultButton'  >  Poll list </Button> </Link>
+               <Link to='/register' > <Button className='defaultButton' onClick={this.props.handleShow}> Create Account</Button></Link>
+               <Link to='/authSignIn'><Button className='SignInButton' onClick={this.props.handleShow} >  Sign In </Button></Link>
                
-               <Link to='/authSignIn'><Button bsStyle="info" onClick={this.props.handleShow} >  Sign In </Button></Link>
-               <Link to='/polls'><Button bsStyle="info"  >  Poll list </Button> </Link>
-               <Link to='/register' > <Button bsStyle='warning' onClick={this.props.handleShow}> Create Account</Button></Link>
                </div>
             </div>)
          }  else if (this.props.userIsLogged){
@@ -35,12 +35,10 @@ if(!this.props.userIsLogged){
                 <div className='header-global'>  
                     <h3> Vote up! Create polls! </h3>
                    <div className='header-body'>
-                   
-                   <Link to='/'><Button bsStyle="danger"  onClick={this.runLogOut} >  Sign Out </Button></Link>
-                   <Link to='/polls'><Button bsStyle="info"  >  Poll list </Button> </Link>
-                   <Link to='/mypolls'><Button bsStyle="info"> My Polls </Button></Link>
-                   <Link to='/createnewpoll'><Button bsStyle="info" onClick={this.props.handleShow}> Create Poll </Button></Link>
-                   
+                   <Link to='/polls'><Button bsStyle="info" className='defaultButton'  >  Poll list </Button> </Link>
+                   <Link to='/mypolls'><Button bsStyle="info" className='defaultButton' > My Polls </Button></Link>
+                   <Link to='/createnewpoll'><Button bsStyle="info" className='defaultButton'  onClick={this.props.handleShow}> Create Poll </Button></Link>
+                   <Link to='/'><Button  className='SignOutButton'  onClick={this.runLogOut} >  Sign Out </Button></Link>
                    </div>
                 </div>)
 

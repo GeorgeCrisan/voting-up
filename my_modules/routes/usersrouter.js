@@ -61,9 +61,6 @@ router.post('/login',function(req,res,next){
 
 // logout route
 
-router.get('/logout',(req,res,next)=>{
-       console.log('run logout on server');
-       res.status(200).send({ message: 'Logout-success!'});
-});
+
 
 module.exports= router;

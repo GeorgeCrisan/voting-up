@@ -14,7 +14,7 @@ class CreateAccount extends Component {
          this.state = {
                username: '',
                password: '',
-               error:{errorMess: 'Username and password must have 6 characters or more. ',
+               error:{errorMess: 'Username/password must have 6 characters or more.',
                       errorMessUserPresent: 'User already existent. Try create new credentials.'},
                token: false,
                redirect: false
@@ -30,11 +30,13 @@ class CreateAccount extends Component {
     }
 
     handleChangeUN(event){
-       this.setState({username: event.target.value });  
+          let tempTransform = event.target.value.replace(/\s/g,'');
+       this.setState({username: tempTransform});  
         }
 
      handleChangePW(event){
-          this.setState({password: event.target.value });  
+      let tempTransform = event.target.value.replace(/\s/g,'');
+          this.setState({password: tempTransform });  
            }  
            
     getValidationStateUN(para){ 
@@ -88,12 +90,12 @@ class CreateAccount extends Component {
        if(this.state.username.length < 6 || this.state.password.length < 6){
         return false;
        } 
-
+       
         var dataT = {
           username: this.state.username,
           password: this.state.password     
      }
-
+        
         fetch('/register',{
             method:'POST',
             headers:{
@@ -183,7 +185,7 @@ class CreateAccount extends Component {
       
         <FormGroup>
           <Col smOffset={2} sm={10}>
-          <Button onClick={this.CAbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Sign Up</Button> 
+          <Button bsStyle='success' onClick={this.CAbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Sign Up</Button> 
           </Col>
         </FormGroup>
         
@@ -219,7 +221,7 @@ class CreateAccount extends Component {
               {CreateAccount}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.handleClose}>Close</Button>
+          <Button  bsStyle='danger' onClick={this.props.handleClose}>Close</Button>
         </Modal.Footer>
       </Modal>
       </div>

@@ -4,7 +4,6 @@
   color: white
   border-radius: 30px
 .elementPoll
-  height: 55px
   margin-bottom: 30px
   width: 100%
   background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)
@@ -14,15 +13,25 @@
     list-style: none
     display: flex
     flex-flow: row nowrap
-    text-align: center
+    text-align: left
     justify-content: space-between
     li 
-      font-family: 'Gugi', cursive
-      font-size: 18px 
-      margin: 15px  5px 5px 5px
+      font-family: 'Titillium Web', sans-serif, 'Gugi', cursive
+      font-size: 16px 
+      margin: 15px  5px 10px 0px
       color: Black
+      font-weight: bold
+      &:first-child
+        width: 40%
+        color: black
       &:last-child 
-        margin-top: 5px
-      span 
+        margin: 5px 5px 3px 0px
+      &:nth-child(2) 
+        color: black
+      p
         color: white
-        text-shadow: 1px 1px 1px black
+        display: inline
+        font-size: 18px
+        margin-left: 10px
+        text-align: left
+        text-shadow: 1px 1px 10px  #222

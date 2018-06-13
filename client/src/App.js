@@ -10,6 +10,7 @@ import ErrorContainerLogin from './Components/ErrorContainerLogin.js';
 import ErrorContainerCA from './Components/ErrorContainerCA.js';
 import ErrorUnauthorized from './Components/errorUnauthorized.js';
 import CreatePollComponent from './Components/createpoll.js';
+import PresentMyPollsComponent from './Components/mypolls.js';
 import './App.css';
 
 
@@ -36,6 +37,7 @@ class MyApp extends React.Component {
           this.ErrorHandlingCA = this.ErrorHandlingCA.bind(this);
           this.createPollHandler = this.createPollHandler.bind(this);
           this.ErrorNotAuth = this.ErrorNotAuth.bind(this);
+          this.PresentMyPolls = this.PresentMyPolls.bind(this);
         }
 
         handleClose(){
@@ -101,11 +103,15 @@ class MyApp extends React.Component {
      }
         
       ErrorHandlingLogin(){
-          return(<ErrorContainerLogin />);
+          return (<ErrorContainerLogin />);
       }
      
       createPollHandler(){
-          return(<CreatePollComponent token={this.state.token} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
+          return (<CreatePollComponent token={this.state.token} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
+      }
+
+      PresentMyPolls(){
+            return (<PresentMyPollsComponent token={this.state.token} />);
       }
 
 
@@ -125,6 +131,7 @@ class MyApp extends React.Component {
         <Route path='/errorNotAuthorized' render={this.ErrorNotAuth }/>
         <Route path='/error-create-account' render={this.ErrorHandlingCA} />
         <Route path='/createnewpoll' render={this.createPollHandler} />
+        <Route path='/mypolls' render={this.PresentMyPolls}/>
         </Switch>
         <Footer />
 

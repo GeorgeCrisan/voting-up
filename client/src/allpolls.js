@@ -4,21 +4,44 @@ import ModalPoll from './Components/pollelement.js';
 
 
 
-
+ 
 
 
 class AllPollsComponent extends Component {
      constructor(props){
        super(props);
        this.state = {
-          loadedPolls: []
+          loadedPolls: [],
+          selected: null
        }
 
        this.runinrender = this.runinrender.bind(this);
        this.fetchData = this.fetchData.bind(this);
+       this.updatedParentAndDB = this.updatedParentAndDB.bind(this);
      }  
        fetchData(){
 
+       }
+
+       updatedParentAndDB( index){
+               let dataToUpdate = this.state.loadedPolls[index];
+              fetch('/updatePolls',{
+                method: 'POST',
+                headers:{
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToUpdate)
+              }).then(res=>{
+                  if(res.status === 401){
+                    console.log('Nasty error from server');
+                  }
+                       
+                        
+                  res.json().then((data)=>{
+                    return;
+                  });  
+              });  
        }
 
      componentDidMount(){
@@ -46,9 +69,9 @@ class AllPollsComponent extends Component {
          return  data.map((element,i) => {
             return (<div key={i} className='elementPoll'>
                    <ul>
-                      <li>Poll Title:<span> {element.question}</span></li>
-                      <li>Created by: <span>{element.createdBy}</span> </li>
-                      <li><ModalPoll elementname={element.question} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                      <li>Poll Title: <p> {element.question}</p></li>
+                      <li>Created by: <p>{element.createdBy}</p> </li>
+                      <li><ModalPoll orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                    </ul>
                    
             </div>)
