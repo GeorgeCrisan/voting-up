@@ -49,12 +49,12 @@ router.post('/login',function(req,res,next){
              } else {
                  user.comparePassword(req.body.password,function(err,isMatch){
                      if(isMatch && !err){
-                         var token = jwt.sign(user.toJSON(), process.env.SECRET_JWT,{expiresIn:'1h'});
+                         var token = jwt.sign(user.toJSON(), 'adouacheiesecreta',{expiresIn:'1h'});
                          res.json({success: true, token: 'JWT ' + token});
                      } else {
                          res.status(401).json({success: false, from: 'wrongpass', msg: 'Wrong Password. Failed auth!'});
                      }
-                 });
+                 }); 
              }
     }); 
 });
