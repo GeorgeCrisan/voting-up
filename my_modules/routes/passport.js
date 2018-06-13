@@ -8,7 +8,7 @@ dotenv.config();
 
 // import user model
 var User = require(path.join('../models/user-model.js'));
-var securitySettings = process.env.SECRET_JWT;
+var securitySettings = 'adouacheiesecreta';
 
 module.exports = function passportStrategyJwt(){
     
