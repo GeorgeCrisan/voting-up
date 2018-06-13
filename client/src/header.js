@@ -24,7 +24,7 @@ if(!this.props.userIsLogged){
             <div className='header-global'>  
                 <h3> Vote up! Create polls! </h3>
                <div className='header-body'>
-               <Link to='/polls'><Button className='defaultButton'  >  Poll list </Button> </Link>
+               <Link to='/polls'><Button className='defaultButton'  >  Polls list </Button> </Link>
                <Link to='/register' > <Button className='defaultButton' onClick={this.props.handleShow}> Create Account</Button></Link>
                <Link to='/authSignIn'><Button className='SignInButton' onClick={this.props.handleShow} >  Sign In </Button></Link>
                
