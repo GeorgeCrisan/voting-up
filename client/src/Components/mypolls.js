@@ -308,7 +308,7 @@ class PresentMyPollsComponent extends Component {
                     
                     <li><ModalPoll  fetchData={this.props.fetchData}  token={this.props.token} orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} id={element._id} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                     </ul>
-                    <div className='shareLink'> <a href={`https://voting-up.herokuapp.com/sharedpoll/${element._id}`}>Share link: {"https://voting-up.herokuapp.com/sharedpoll/" + element._id}</a></div>
+                    <div className='shareLink'>Share link: <a href={`https://voting-up.herokuapp.com/sharedpoll/${element._id}`}> {"https://voting-up.herokuapp.com/sharedpoll/" + element._id}</a></div>
                  
           </div>);
               }
