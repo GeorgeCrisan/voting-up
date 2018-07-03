@@ -1,0 +1,117 @@
+.modal-container 
+  position: relative
+
+.modal-container .modal, .modal-container .modal-backdrop 
+  position: absolute
+
+.modal-title
+  color: white !important
+  font-size: 26px  
+  text-shadow: 1px 1px 1px black
+.modal-header
+  background: radial-gradient(black 15%, transparent 16%) 0 0,radial-gradient(black 15%, transparent 16%) 8px 8px,radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color: #282828
+  background-size: 16px 16px
+  border-bottom: 1px solid black
+.logInInfo  
+  color: white
+  width: 80%
+  display: flex
+  justify-content: space-around
+  text-align: center 
+  margin: auto
+  div
+    position: relative 
+    top: 6px
+.modal-body
+  background: radial-gradient(black 15%, transparent 16%) 0 0,radial-gradient(black 15%, transparent 16%) 8px 8px,radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color: #282828
+  background-size: 16px 16px
+  border: 0px 
+
+  a 
+    color: black
+    &:hover 
+      color: black  
+      cursor: pointer
+      text-decoration: none
+  h4 
+    font-family: 'Gugi', sans-serif
+    text-shadow: 1px 1px 1px black
+    color: white
+    font-size: 26px
+    text-align: center
+    justify-content: center
+
+.modal-footer
+  display: flex 
+  justify-content: space-between
+  background: radial-gradient(black 15%, transparent 16%) 0 0,radial-gradient(black 15%, transparent 16%) 8px 8px,radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+  background-color: #282828
+  background-size: 16px 16px
+  border-top: 1px solid black
+ 
+  
+
+
+.form-control-feedback
+  margin-right: 14px
+
+
+.optionsToClick
+  display: flex 
+  flex-flow: row nowrap
+  justify-content: left
+  text-align: center 
+  height: 35px  
+  margin: 10px auto auto auto
+  border-radius: 10px
+  width: 80%
+
+  div
+    width: 100%
+    display: flex
+    p 
+      color: orange
+      font-family: 'Gugi', sans-serif
+      margin-top: 8px
+      margin-left: 20px
+    
+      
+      &:last-child 
+        color: white
+    
+.bar 
+  fill: steelblue
+
+
+.bar:hover 
+  fill: blue
+
+
+.axis--x path 
+  display: none
+
+
+.chartvotes
+  width: 570px
+  margin: 0px 0 20px 0
+  display: flex
+  flex-flow: column nowrap
+  .bar 
+    background: #28B463  
+    background-image: linear-gradient(120deg, yellow 20%, red 100%)
+    margin-top: 40px
+    color: white
+    text-shadow: 1px 1px 1px black
+    font-size: 15px
+    font-family: 'Gugi', sans-serif
+    width: 100%
+    border-radius: 0px 10px 10px 0px
+    .vote
+      position: relative
+      top: -24px
+      left: 10px
+      min-width: 400px
+.elementPollSecret
+  display: none

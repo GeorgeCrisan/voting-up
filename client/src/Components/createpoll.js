@@ -1,7 +1,10 @@
 import React , {Component} from 'react';
 import './createpoll.css';
+import mgdpng from './mgb.png';
+import rjspng from './rjs.png';
+import njpng from './nodejs.png';
 import {Redirect} from 'react-router';
-import {Modal , Button , Form , FormGroup , FormControl , Col , ControlLabel , Glyphicon} from 'react-bootstrap';
+import {Modal , Button , Form , FormGroup , FormControl , Col , ControlLabel } from 'react-bootstrap';
 
 class CreatePollComponent extends Component {
 
@@ -10,7 +13,7 @@ class CreatePollComponent extends Component {
          this.state= {
             question: '',
             options: [{optionBody: '', votes: 0}],
-            error:{errorMess: 'Characters requiered.',
+            error:{errorMess: 'Characters requiered for title.',
                    notEnogghOptions: 'Please insert at least one option.'},    
             token: '',
             redirect: false,
@@ -61,7 +64,7 @@ class CreatePollComponent extends Component {
          return false;
         } 
 
-        return true;
+        return true; 
           
    }
       handleChangeFormValueQuestion(event){
@@ -73,7 +76,7 @@ class CreatePollComponent extends Component {
 
       handleChangeFormValueOption(event){
            let tempOptions,index;
-           index = parseInt(event.target.name.charAt(0));
+           index = parseInt(event.target.name.charAt(0),10);
           tempOptions = {...this.state};
           tempOptions.options[index].optionBody = event.target.value;
          this.setState({...tempOptions});
@@ -145,6 +148,7 @@ class CreatePollComponent extends Component {
               
          
             if(dataRec.success === true){
+               this.props.fetchData();
                this.setState({redirect: true});
             }
            });
@@ -186,7 +190,6 @@ class CreatePollComponent extends Component {
               <Form onSubmit={this.onFormSubmit}  horizontal>
                 <FormGroup controlId="formHorizontalCreatePoll" validationState={this.validateStateForm('question')}>
                 <Col componentClass={ControlLabel} sm={12}>
-                            <h2 style={{'textAlign' :'center' ,'fontFamily': 'Titillium Web', 'fontSize': '24px'}}>Insert a query title for the poll!</h2>
                        </Col>
 
                     <Col sm={12}>
@@ -208,7 +211,27 @@ class CreatePollComponent extends Component {
                   </FormGroup>
                 </Form>)
           
-        return( <Modal show={this.props.show} onHide={this.props.handleClose}>
+        return( 
+          <div className='entry-page'>
+
+          <div className='logos-icons'>
+  
+          <img src={mgdpng} className='logo-style' alt='logo img node react express mongodb'/>
+          <div  className='logo-style' alt=''>ExpressJs</div>
+          <img src={rjspng} className='logo-style' alt='logo img node react express mongodb'/>
+          <img src={njpng} className='logo-style' alt='logo img node react express mongodb'/>
+  
+          </div>
+          
+          <div className='infos-style'>
+                    
+                   <p>Take part on other users polls.</p>
+                  <p>You can create an acount for free and create your own poll.</p>
+                  
+                  <p>This application is build by George Crisan at georgerdp@gmail.com.</p>
+                  <p>Node, Express, ReactJS, Mongoose.</p>
+              </div>
+              <Modal show={this.props.show} onHide={this.props.handleClose}>
             <Modal.Header closeButton>
               <Modal.Title> Create new Poll </Modal.Title>
             </Modal.Header>
@@ -218,7 +241,10 @@ class CreatePollComponent extends Component {
             <Modal.Footer>
               <Button onClick={this.props.handleClose}>Close</Button>
             </Modal.Footer>
-          </Modal>);
+          </Modal>
+              </div>
+          
+          );
     }
 }
 

@@ -7,15 +7,23 @@
 
 .modal-header h4 {
   color: black;
+  text-align: center;
   font-family: 'Gugi',sans-serif;
-  text-align: left;
   margin-top: 15px; }
 
 .modal-header .close {
   height: 20px; }
 
 .control-label {
-  color: black !important; }
+  color: white !important;
+  font-size: 18px;
+  text-shadow: 1px 1px 1px black; }
+
+.errMessP {
+  color: red;
+  font-size: 13px;
+  text-shadow: 1px 1px 1px black;
+  text-align: center; }
 
 .infos-style {
   display: flex;

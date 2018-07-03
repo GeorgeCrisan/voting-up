@@ -5,7 +5,11 @@ let passport = require('passport');
 var mongoose = require('mongoose');
 const Poll = require(path.join('../models/poll-model.js'));
 
+/*router.get('/sharedpoll/:id',(req,res,next)=>{
+           let query = req.params.id;
+           res.json({success:true,msg:'query', id: query});
 
+});*/
 
 router.get('/allpolls',(req,res,next)=>{
 
@@ -18,6 +22,16 @@ router.get('/allpolls',(req,res,next)=>{
 
 }); 
 
+router.post('/deletepoll',passport.authenticate('jwt',{session:false}),function(req,res){
+    console.log(req.body.pollToDeletebyId);
+       Poll.findByIdAndRemove(req.body.pollToDeletebyId,function(err,resret){
+            if(err){throw err;}
+            else{
+                 res.status(200).send({success: true,from:'poll deleted',id:resret._id });
+            }
+       });
+    });
+
 router.get('/mypolls',passport.authenticate('jwt',{session:false}),function(req,res,next){
           let query = req.user.username;
         Poll.find({createdBy: query},function(err,docs){
@@ -28,6 +42,20 @@ router.get('/mypolls',passport.authenticate('jwt',{session:false}),function(req,
         });
 
 });
+
+router.post('/optionsUpdate/:id',passport.authenticate('jwt',{session:false}),function(req,res,next){
+
+            let querry = String(req.params.id);
+            Poll.findByIdAndUpdate(querry,{$set:{options:req.body}},function(err,data){
+                  if(err)
+                     next(err);
+                  else{
+                    res.json({success: true, msg: 'Options Updated'});
+                  }   
+            });
+
+            
+  });
 
 router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(req,res,next){
 
@@ -48,12 +76,14 @@ router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(
 
 router.post('/updatePolls',function(req,res,next){
 
+
             let query = {_id:req.body._id};
+
             Poll.findOneAndUpdate(query,{$set:req.body},{new: true},function(err,data){
                       if(err)
                          next(err);
                        else {
-                        res.json({success: true, msg: 'Full update resolved'});
+                        res.json({success: true, msg: 'Full update resolved',data:data});
                        }   
             });
 

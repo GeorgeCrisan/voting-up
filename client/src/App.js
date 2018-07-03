@@ -11,6 +11,7 @@ import ErrorContainerCA from './Components/ErrorContainerCA.js';
 import ErrorUnauthorized from './Components/errorUnauthorized.js';
 import CreatePollComponent from './Components/createpoll.js';
 import PresentMyPollsComponent from './Components/mypolls.js';
+import SharedPoll from './Components/sharedpolls.js';
 import './App.css';
 
 
@@ -22,8 +23,8 @@ class MyApp extends React.Component {
                      loadedPolls : [],
                      showModalAuth: false,
                      userIsLogged: false,
-                     token:  null
-
+                     token:  null,
+                     userIs: null
 
               }
           this.allpolls = this.allpolls.bind(this);
@@ -38,6 +39,9 @@ class MyApp extends React.Component {
           this.createPollHandler = this.createPollHandler.bind(this);
           this.ErrorNotAuth = this.ErrorNotAuth.bind(this);
           this.PresentMyPolls = this.PresentMyPolls.bind(this);
+          this.fetchData = this.fetchData.bind(this);
+          this.sharedPoll = this.sharedPoll.bind(this);
+          this.UpdateParent = this.UpdateParent.bind(this);
         }
 
         handleClose(){
@@ -55,16 +59,50 @@ class MyApp extends React.Component {
 
         }
 
+        UpdateParent(info){
+            let infoAr = Object.entries(info);
+            let arrayOfOBj = [];
+            for(let j = 0; j < infoAr.length; j++){
+                arrayOfOBj.push(infoAr[j][1]);
+            }
+              
 
-       confirmUserIsLogged(paramCUIL){
+              this.setState({loadedPolls: arrayOfOBj});
+      
+            }
+        
+        fetchData(){
+            fetch('/allpolls',{
+              method: 'GET',
+              headers:{
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+               }
+          }).then((response)=>{
+      
+               response.json().then((data)=>{
+      
+                    this.setState({loadedPolls: data});
+      
+               });
+      
+          }).catch(error=>{
+              console.log(error + ' Try again!');
+          });
+    
+           }
 
-           this.setState({userIsLogged: true, token: paramCUIL});
+       confirmUserIsLogged(paramCUIL,userWho){
+
+           this.setState({userIsLogged: true, token: paramCUIL, userIs: userWho});
+           localStorage.setItem('userIs',userWho);
 
        }
 
        confirmLogOut(){
-           this.setState({userIsLogged: false, token: null});
+           this.setState({userIsLogged: false, token: null, userIs: null});
            localStorage.removeItem('jwtTokenFS');
+           localStorage.removeItem('userIs');
          //  window.location.reload();
 
        }
@@ -74,14 +112,35 @@ class MyApp extends React.Component {
       componentDidMount(){
                        if(localStorage.getItem('jwtTokenFS')){
                                 var gotToken = localStorage.getItem('jwtTokenFS');
+                                var userIsNow = localStorage.getItem('userIs');
                            this.setState({userIsLogged: true,
-                            token: gotToken});
+                            token: gotToken,
+                        userIs: userIsNow});
                        }
+
+                       fetch('/allpolls',{
+                        method: 'GET',
+                        headers:{
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                         }
+                    }).then((response)=>{
+                
+                         response.json().then((data)=>{
+                
+                              this.setState({loadedPolls: data});
+                
+                         });
+                
+                    }).catch(error=>{
+                        console.log(error + ' Try again!');
+                    });
+              
                               
       }
 
       allpolls(){
-          return(<AllPollsComponent  />);
+          return(<AllPollsComponent fetchData={this.fetchData} loadedPolls={this.state.loadedPolls} />);
       }
 
       Login(){
@@ -106,12 +165,17 @@ class MyApp extends React.Component {
           return (<ErrorContainerLogin />);
       }
      
+      sharedPoll(props){
+             
+          return (<SharedPoll {...props} UpdateParent={this.UpdateParent} />); 
+      }
+
       createPollHandler(){
-          return (<CreatePollComponent token={this.state.token} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
+          return (<CreatePollComponent token={this.state.token} fetchData={this.fetchData} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
       }
 
       PresentMyPolls(){
-            return (<PresentMyPollsComponent token={this.state.token} />);
+            return (<PresentMyPollsComponent fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
       }
 
 
@@ -132,6 +196,7 @@ class MyApp extends React.Component {
         <Route path='/error-create-account' render={this.ErrorHandlingCA} />
         <Route path='/createnewpoll' render={this.createPollHandler} />
         <Route path='/mypolls' render={this.PresentMyPolls}/>
+        <Route path='/sharedpoll/:id' render={this.sharedPoll}/>
         </Switch>
         <Footer />
 

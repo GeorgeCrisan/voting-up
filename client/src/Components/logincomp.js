@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import { withRouter } from 'react-router-dom';
+
 import { Redirect } from 'react-router';
 import './logincomp.sass';
 import mgdpng from './mgb.png';
-import expng from './ex.png';
+
 import rjspng from './rjs.png';
 import njpng from './nodejs.png';
 import './entrypage.css';
-import {Col, ControlLabel, Form ,Button , Modal ,Popover , Tooltip , OverlayTrigger ,FormGroup , FormControl , FormControlFeedback , HelpBlock } from 'react-bootstrap';
+import {Col, ControlLabel, Form ,Button , Modal ,FormGroup , FormControl } from 'react-bootstrap';
 
 class Login extends Component {
     constructor(props){
@@ -104,9 +104,11 @@ class Login extends Component {
          res.json().then(data=>{
 
            if(data.success === true){
-            this.setState({username:'',password: ''})
+          
             localStorage.setItem('jwtTokenFS',data.token);
-            this.props.confirmUserIsLogged(data.token);
+
+            this.props.confirmUserIsLogged(data.token, this.state.username);
+            this.setState({username:'',password: ''});
           } else if (data.success === false){
                 if(data.from === 'nouser'){
 
@@ -148,7 +150,7 @@ class Login extends Component {
           <Col sm={10}>
             <FormControl autoComplete="off" type="text" value={this.state.username} placeholder="Username" name="username" onChange={this.handleChangeUN} />
             <FormControl.Feedback />
-            <p>  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
+            <p className='errMessP' >  {this.validcondition('username') ? ' ' : this.state.error.errorMess} </p>
           </Col>
         </FormGroup>  
       
@@ -161,16 +163,17 @@ class Login extends Component {
           <Col sm={10}>
             <FormControl autoComplete="off" type="password" value={this.state.password} onChange={this.handleChangePW} placeholder="Password" name="password" />
             <FormControl.Feedback />
-            <p>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
+            <p className='errMessP'>{this.validcondition('password') ? ' ' : this.state.error.errorMess}</p>
             </Col>
         </FormGroup>
       
    
       
         <FormGroup>
-          <Col smOffset={2} sm={10}>
-          <Button bsStyle='success' onClick={this.LGbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Log In</Button> 
-          </Col>
+          <div className='logInInfo'>
+          <Button bsStyle='success'  onClick={this.LGbuttonConditions() ? this.props.handleClose :null } type={'submit' }>Log In</Button> 
+          <div > <p> Be aware that username it is case sensitive! </p> </div>
+          </div>
         </FormGroup>
       </Form>);
 

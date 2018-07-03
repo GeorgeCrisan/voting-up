@@ -1,0 +1,10 @@
+.shareLink {
+  text-align: center;
+  position: static;
+  padding-bottom: 10px; }
+  .shareLink a {
+    text-align: center;
+    color: lime;
+    cursor: pointer; }
+    .shareLink a:visited, .shareLink a:focus, .shareLink a:active {
+      color: lime; }

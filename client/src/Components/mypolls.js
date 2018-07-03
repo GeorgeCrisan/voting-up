@@ -1,95 +1,210 @@
-
 import React, {Component} from 'react';
-import * as d3 from 'd3';
 import './mypolls.css';
-import {Popover , Button , Modal , OverlayTrigger , Tooltip} from 'react-bootstrap';
+import {Redirect} from 'react-router';
+import { Button , Modal , FormGroup , FormControl , Col } from 'react-bootstrap';
+ 
 
 
 class ModalPoll extends Component {
     constructor(props, context) {
       super(props, context);
-  
       this.handleShow = this.handleShow.bind(this);
       this.handleClose = this.handleClose.bind(this);
-      this.renderChart = this.renderChart.bind(this);
-      this.votedNowRender = this.votedNowRender.bind(this);
+      this.deletePoll = this.deletePoll.bind(this);
+      this.editPoll = this.editPoll.bind(this);
+      this.addOption = this.addOption.bind(this);
+      this.removeOption = this.removeOption.bind(this);
+      this.submitChange = this.submitChange.bind(this);
+      this.validateStateForm = this.validateStateForm.bind(this);
+      this.processChange = this.processChange.bind(this);
 
+    
   
+
       this.state = {
         
         show: false,
-        voted: false,
+        redirectError: false,
+        redirectToMyPolls: false,
+        redirectToAllPolls: false,
+        eventId: undefined,
+        editMode: false,
+        tempOptions: this.props.elementoptions,
+
+  
+
 
 
       };
     }
   
     handleClose() {
-      this.setState({ show: false });
+      this.setState({ show: false, editMode: false, tempOptions: this.props.elementoptions  });
+ 
     }
+
+
+    processChange(event){
+      let i = Number(event.target.name.charAt(0));
+      let mod = this.state.tempOptions;
+      mod[i].optionBody = event.target.value;
+      this.setState({tempOptions: mod});
+
+      
+
+
+
+    }
+
+ 
   
     handleShow() {
-      this.setState({ show: true , voted: false});
+      this.setState({ show: true });
     }
-   
 
+    
+
+    editPoll(){
+        
+        const createClone = JSON.parse(JSON.stringify(this.props.elementoptions));
+       this.setState({ show: true, editMode: true, tempOptions: createClone});
+ 
+    }
+
+    submitChange(event){
+       let queryId = String(event.target.id);
+      let temp = this.state.tempOptions;
+
+      console.log(temp);
+         
+      console.log(queryId);
+          fetch('/optionsUpdate/' + queryId,{
+            method: 'POST',
+            headers:{
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': this.props.token 
+            },
+            body: JSON.stringify(temp)
+             
+          }).then((res)=>{
+            console.log(res);
+ 
+              if (res.status === 401 ){
+
+                this.setState({redirectError: true});
+                console.log('Not authorised'); 
+              } else if (res.status === 404) {
+                this.setState({redirectError: true});
+                console.log('not found');
+
+              } else if (res.status === 200) {
+                res.json().then((data)=>{
+                  if(data.success === true){
+                    this.handleClose();
+                    this.props.fetchData();
+                    this.setState({redirectToAllPolls: true});
+                  }
   
+                });
+              }
+                
 
-    votedNowRender(event){
-      let index = this.props.orderMe;
-       let i = Number(event.target.id);
-       let tempArray = this.props.elementoptions;
-       tempArray[i].votes += 1;
+              
 
-       this.props.updatedParentAndDB(index);
-      this.renderChart();
+          });
     }
-     
-    renderChart(){
+
+    addOption(event){
+
+
+        let temp = this.state.tempOptions;
+        temp.push({_id: undefined, optionBody: '', votes: 0});
+        this.setState({tempOptions:temp});
         
 
-        let chart = d3.select('#chart');
-        let data = this.props.elementoptions;
-        let width = 570;
-        let xScale = d3.scaleLinear()
-                       .domain([0, d3.max(data,d=>d.votes)])
-                       .range([0,width]);
-        chart.selectAll('.bar').remove();
-        let bars = chart.selectAll('.bar')
-                        .data(data)
-                        .enter()
-                        .append('div')
-                        .attr('class','bar');
-                        
-                        
-        bars.append('div').attr('class', 'vote')
-            .transition()
-            .delay(1400)
-            .duration(1000)
-            .text((d, i) => {
-             return (i+1) + ': ' + d.optionBody  + ' Votes:    ' + d.votes; 
-            });
-            
-        bars
-            .style('top', (d, i) => i * 50 + 30 + 'px')
-            .style('height', '25px')
-            .style('width', '0px')
-            .transition()
-            .delay(500)
-            .duration(1000)
-            .style('width', d => xScale(d.votes) + 'px');   
-            
-            this.setState({voted: true});
     }
 
+    removeOption(event){
+
+        let queryId = String(event.target.id);
+        console.log(queryId);
+        let temp = this.state.tempOptions;
+        temp.pop();
+         this.setState({tempOptions: temp});
+
+      
+    }
+
+ validateStateForm(i){
+     let length = '';
+    
+   
+         length = this.state.tempOptions[i].optionBody.length;
+
+          if (length >= 1 ){
+              return 'success';
+          }
+       else if (length < 1)
+              return 'warning';
+       else if (length < 0)
+               return 'error';
+       return null;
+ }
+
+    
+   
+    deletePoll(event){
+          let elementNameQuery ={pollToDeletebyId:  event.target.id};
+
+      fetch(`/deletepoll`,{
+        method: 'POST',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': this.props.token 
+        },
+        body: JSON.stringify(elementNameQuery)
+      }).then(res=>{
+          if( res.status === 401){
+             this.setState({redirectError: true});
+            console.log('Not authorised');
+          } else if (res.status === 404){
+            alert('resource not found');
+          }
+               
+                
+          res.json().then((data)=>{
+
+            if(data.success === true){
+              this.handleClose();
+              this.props.fetchData();
+            }
+
+          });  
+      }); 
+    }
+  
+
+ 
+
     render() {
+      if(this.state.redirectError === true )
+          return (<Redirect to='/errorNotAuthorized'/> );
+
+          if(this.state.redirectToAllPolls === true )
+          return (<Redirect to='/polls'/> );    
+ 
 
       return (
         <div>
-  
-          <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-            Open 
+          
+          <Button bsStyle="primary" onClick={this.handleShow}>
+            Results
           </Button>
+          <Button bsStyle="success"  onClick={this.editPoll}> Edit Poll </Button>
+
+          
   
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
@@ -98,16 +213,24 @@ class ModalPoll extends Component {
             </Modal.Header>
             <Modal.Body className='poll-detail'>
   
-              <h4>{this.state.voted ? 'Votes Graph:' : 'I want to vote for:'}</h4>
+             
               {
                 
-                this.state.voted ? false :
-                this.props.elementoptions.map((el,i)=>{
+                
+                this.state.tempOptions.map((el,i)=>{
 
                   
                    return(<a key={i + 1}>
-                    <div className='optionsToClick' id={i} refs={i} style={(!(i % 2)) ? {backgroundColor: '#5D6D7E'}:{backgroundColor: '#212F3C'}  } onClick={this.votedNowRender}>
-                       <p>Option {i+1}:</p>  <p>{el.optionBody}</p>
+                    <div className='optionsToClick' id={i} refs={i} style={(!(i % 2)) ? {backgroundColor: '#212F3C'}:{backgroundColor: '#212F3C'}  } >
+
+                       {this.state.editMode ? <FormGroup controlId={'option'+ i} key={i} validationState={ this.validateStateForm(i)}>
+                       <Col sm={12}>
+                      
+                       <FormControl type="text" autoComplete="off"   name={i+'option'} value={el.optionBody } placeholder={'Option '+i} onChange={this.processChange}/>
+                       
+                       <FormControl.Feedback/>
+                       </Col>
+                     </FormGroup> : (<div><p>Option {i+1}:</p>  <p>{el.optionBody } </p> <p>{'Votes Total: '+ el.votes}</p></div>)}
 
                    </div>
                    </a>)
@@ -116,8 +239,13 @@ class ModalPoll extends Component {
               <div className="chartvotes" id="chart" ref="chart"></div>
 
             </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
+            <Modal.Footer >
+            { this.state.editMode ? <Button bsStyle="success" bsSize="sm" id={this.props.id} onClick={this.submitChange}> Submit Change </Button> : null}
+             <Button bsStyle="danger" bsSize="sm" id={this.props.id} onClick={this.deletePoll}> Delete Poll </Button>
+             { this.state.editMode ? <Button bsStyle="info" bsSize="sm" id={this.props.id} onClick={this.addOption}> Add Option </Button> : null}
+             { this.state.editMode ? <Button bsStyle="warning" bsSize="sm" id={this.props.id} onClick={this.removeOption}> Remove Option </Button> : null}
+              <Button bsSize="sm" onClick={this.handleClose}>Close</Button>
+              
             </Modal.Footer>
           </Modal>
         </div>
@@ -129,16 +257,19 @@ class PresentMyPollsComponent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            loadedMyPolls: [],
             redirectError: false
         }
        
         this.runinrender = this.runinrender.bind(this);
         this.updatedParentAndDB = this.updatedParentAndDB.bind(this);
+        //this.pleaseUpdate = this.pleaseUpdate.bind(this);
+
     }
 
+   
+
     updatedParentAndDB( index){
-        let dataToUpdate = this.state.loadedMyPolls[index];
+        let dataToUpdate = this.props.loadedMyPolls[index];
        fetch('/updatePolls',{
          method: 'POST',
          headers:{
@@ -153,58 +284,41 @@ class PresentMyPollsComponent extends Component {
                 
                  
            res.json().then((data)=>{
-             return;
+             // console.log(data);
            });  
        });  
 }
     
 
     componentDidMount(){
-        fetch('/mypolls',{
-          method: 'GET',
-          headers:{
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': this.props.token 
-           }
-      }).then((response)=>{
-           
-        if(response.status === 401){
-            this.setState({redirectError: true});
-
-         } else {
-            response.json().then((data)=>{ 
-  
-                this.setState({loadedMyPolls: data});
-  
-           });
-
-         }
-  
-          
-  
-      }).catch(error=>{
-          console.log(error + ' Try again!');
-      });
+        // console.log(this.props.loadedMyPolls);
+         
        }
       
+
        runinrender(){
-        let data = this.state.loadedMyPolls;
+        let data = this.props.loadedMyPolls;
+        
        return  data.map((element,i) => {
-          return (<div key={i} className='elementPoll'>
+              if(element.createdBy === this.props.userIs){
+          return (<div key={i} className='elementPollMy'>
                  <ul>
                     <li>Poll Title: <p> {element.question}</p></li>
                     <li>Created by: <p>{element.createdBy}</p> </li>
-                    <li><ModalPoll orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
-                 </ul>
+                    
+                    <li><ModalPoll  fetchData={this.props.fetchData}  token={this.props.token} orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} id={element._id} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                    </ul>
+                    <div className='shareLink'> <a href={`https://voting-up.herokuapp.com/sharedpoll/${element._id}`}>Share link: {"https://voting-up.herokuapp.com/sharedpoll/" + element._id}</a></div>
                  
-          </div>)
+          </div>);
+              }
          });
           
    }
 
 render() {
-
+  if(this.state.redirectError === true )
+          return (<Redirect to='/errorNotAuthorized'/> );
   
     return (
       <div className="bodyapp">

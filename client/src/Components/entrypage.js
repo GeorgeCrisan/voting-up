@@ -1,6 +1,5 @@
 import React, {Component }  from 'react';
 import mgdpng from './mgb.png';
-import expng from './ex.png';
 import rjspng from './rjs.png';
 import njpng from './nodejs.png';
 import './entrypage.css';
@@ -8,9 +7,7 @@ import './entrypage.css';
 
 
 class EntryPage extends Component {
-       constructor(props){
-           super(props);
-       }
+
     render(){
         return(<div className='entry-page'>
 

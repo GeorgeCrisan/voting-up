@@ -27,12 +27,11 @@
 .SignInButton {
   align-self: center;
   flex: 0 0 auto;
-  height: 38px;
+  height: 30px;
   font-family: 'Gugi', cursive;
-  font-size: 14px;
+  font-size: 13px;
   margin: 20px;
   text-shadow: 1px 1px 1px black;
-  background: rgba(44, 144, 223, 0.7);
   border-color: #0490ff;
   border-width: 1px;
   color: white;
@@ -57,9 +56,9 @@
 .SignOutButton {
   align-self: center;
   flex: 0 0 auto;
-  height: 38px;
+  height: 30px;
   font-family: 'Gugi', cursive;
-  font-size: 14px;
+  font-size: 13px;
   margin: 20px;
   text-shadow: 1px 1px 1px black;
   background: rgba(44, 144, 223, 0.7);
@@ -87,16 +86,15 @@
 .defaultButton {
   align-self: center;
   flex: 0 0 auto;
-  height: 38px;
+  height: 30px;
   font-family: 'Gugi', cursive;
-  font-size: 14px;
+  font-size: 13px;
   margin: 20px;
   text-shadow: 1px 1px 1px black;
-  background: rgba(44, 144, 223, 0.7);
+  background: rgba(0, 128, 128, 0.8);
   border-color: #0490ff;
   border-width: 1px;
   color: white;
-  background: rgba(4, 144, 255, 0.3);
   width: 140px;
   border-color: black;
   border-width: 1px;
@@ -110,6 +108,6 @@
     transition-duration: 0.3s;
     text-shadow: none; }
   .defaultButton:focus, .defaultButton:active {
-    background: rgba(44, 144, 223, 0.3);
+    background: rgba(4, 144, 255, 0.7);
     border-color: #0490ff;
     color: white; }
