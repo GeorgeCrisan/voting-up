@@ -75,9 +75,7 @@ class ModalPoll extends Component {
        let queryId = String(event.target.id);
       let temp = this.state.tempOptions;
 
-      console.log(temp);
-         
-      console.log(queryId);
+     
           fetch('/optionsUpdate/' + queryId,{
             method: 'POST',
             headers:{
@@ -88,7 +86,7 @@ class ModalPoll extends Component {
             body: JSON.stringify(temp)
              
           }).then((res)=>{
-            console.log(res);
+
  
               if (res.status === 401 ){
 
@@ -128,7 +126,7 @@ class ModalPoll extends Component {
     removeOption(event){
 
         let queryId = String(event.target.id);
-        console.log(queryId);
+
         let temp = this.state.tempOptions;
         temp.pop();
          this.setState({tempOptions: temp});
@@ -261,39 +259,10 @@ class PresentMyPollsComponent extends Component {
         }
        
         this.runinrender = this.runinrender.bind(this);
-        this.updatedParentAndDB = this.updatedParentAndDB.bind(this);
-        //this.pleaseUpdate = this.pleaseUpdate.bind(this);
 
     }
 
    
-
-    updatedParentAndDB( index){
-        let dataToUpdate = this.props.loadedMyPolls[index];
-       fetch('/updatePolls',{
-         method: 'POST',
-         headers:{
-           'Accept': 'application/json',
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(dataToUpdate)
-       }).then(res=>{
-           if(res.status === 401){
-             console.log('Nasty error from server');
-           }
-                
-                 
-           res.json().then((data)=>{
-             // console.log(data);
-           });  
-       });  
-}
-    
-
-    componentDidMount(){
-        // console.log(this.props.loadedMyPolls);
-         
-       }
       
 
        runinrender(){
@@ -306,7 +275,7 @@ class PresentMyPollsComponent extends Component {
                     <li>Poll Title: <p> {element.question}</p></li>
                     <li>Created by: <p>{element.createdBy}</p> </li>
                     
-                    <li><ModalPoll userId={this.props.userId} fetchData={this.props.fetchData}  token={this.props.token} orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} id={element._id} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                    <li><ModalPoll userId={this.props.userId} fetchData={this.props.fetchData}  token={this.props.token} orderMe={i}  elementname={element.question} id={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                     </ul>
                     <div className='shareLink'>Share link: <a href={`https://voting-up.herokuapp.com/sharedpoll/${element._id}`}> {"https://voting-up.herokuapp.com/sharedpoll/" + element._id}</a></div>
                  

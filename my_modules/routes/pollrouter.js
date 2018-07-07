@@ -92,17 +92,21 @@ router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(
 
 router.post('/updatePolls',function(req,res,next){
 
-
-            let query = {_id:req.body._id};
-
-            Poll.findOneAndUpdate(query,{$set:req.body},{new: true},function(err,data){
-                      if(err)
-                         next(err);
+           console.log(req.body);
+            let query = req.body.docId;
+            let query2 = req.body._id;
+            Poll.findOneAndUpdate({"_id":query,"options._id":query2},{"$inc": { "options.$.votes": 1 } },{new:true},function(err,data){
+                      if(err){
+                          console.log(err);
+                        next(err);
+                      }
+                         
                        else {
+                           console.log(data);
                         res.json({success: true, msg: 'Full update resolved',data:data});
                        }   
             });
-
+  
             
 });
 

@@ -34,14 +34,14 @@ class ModalPoll extends Component {
 
 
 
-  votedNowRender(event){
-    let index = this.props.orderMe;
-     let i = Number(event.target.id);
+  votedNowRender(index,idul){
 
+     let i = index;
+     let id = idul;
      let tempArray = this.props.elementoptions;
      tempArray[i].votes += 1;
 
-     this.props.updatedParentAndDB(index);
+     this.props.updatedParentAndDB(index,id,this.props.elementId);
     this.renderChart();
   }
    
@@ -105,7 +105,7 @@ class ModalPoll extends Component {
 
                 
                  return(<a key={i + 1}>
-                  <div className='optionsToClick' id={i} refs={i} style={(!(i % 2)) ? {backgroundColor: '#5D6D7E'}:{backgroundColor: '#212F3C'}  } onClick={this.votedNowRender}>
+                  <div className='optionsToClick' id={i} refs={i} style={(!(i % 2)) ? {backgroundColor: '#5D6D7E'}:{backgroundColor: '#212F3C'}  } onClick={()=>{return this.votedNowRender(i,el._id)}}>
                     <div id={'0000' + i}> <p id={'0' + i}>Option {i+1}:</p>  <p id={'00' + i}>{el.optionBody}</p></div>
 
                  </div>
@@ -139,8 +139,8 @@ class AllPollsComponent extends Component {
      }  
        
 
-       updatedParentAndDB( index){
-               let dataToUpdate = this.props.loadedPolls[index];
+       updatedParentAndDB( index,optionid, elementid){
+               let dataToUpdate = {_id: optionid, docId: elementid};
               fetch('/updatePolls',{
                 method: 'POST',
                 headers:{
@@ -151,10 +151,13 @@ class AllPollsComponent extends Component {
               }).then(res=>{
                   if(res.status === 401){
                     console.log('Nasty error from server');
+                  } else if (!res.status === 200){
+                     alert('Action not allowed.');
                   }
                        
                         
                   res.json().then((data)=>{
+                    //console.log(data);
                     return;
                   });  
               });  
@@ -170,7 +173,7 @@ class AllPollsComponent extends Component {
                       <li>Poll Title: <p> {element.question}</p></li>
                       <li>Created by: <p>{element.createdBy}</p> </li>
                       
-                      <li><ModalPoll orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} userid={element.createdBy} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                      <li><ModalPoll orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} elementId={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                    </ul>
                    
             </div>)

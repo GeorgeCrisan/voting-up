@@ -151,7 +151,7 @@ class CreatePollComponent extends Component {
 
 
         
-         console.log(this.props.userId);
+         //console.log(this.props.userId);
           
         let dataToSubmit = {
           question: this.state.question,
@@ -172,16 +172,20 @@ class CreatePollComponent extends Component {
     }).then(res=>{
          if(res.status === 401){
             alert('Your action is not authorized!');
-            this.setState({redirectError: true})
+            this.setState({redirectError: true});
 
          } else {
 
           res.json().then(dataRec=>{
-              console.log(dataRec);
+              //console.log(dataRec);
          
             if(dataRec.success === true){
                this.props.fetchData();
                this.setState({redirect: true});
+            } else if ( dataRec.success === false){
+              alert('Your action is not authorized!');
+              this.setState({redirectError: true})
+
             }
            });
          }
