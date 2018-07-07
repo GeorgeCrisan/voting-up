@@ -173,7 +173,7 @@ class AllPollsComponent extends Component {
                       <li>Poll Title: <p> {element.question}</p></li>
                       <li>Created by: <p>{element.createdBy}</p> </li>
                       
-                      <li><ModalPoll orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} elementId={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                      <li><ModalPoll useris={this.state.useris} orderMe={i} updatedParentAndDB={this.updatedParentAndDB} elementname={element.question} elementId={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                    </ul>
                    
             </div>)

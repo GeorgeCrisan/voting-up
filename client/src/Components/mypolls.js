@@ -153,7 +153,7 @@ class ModalPoll extends Component {
     
    
     deletePoll(event){
-          let elementNameQuery ={pollToDeletebyId:  event.target.id, userId: this.props.userId};
+          let elementNameQuery ={pollToDeletebyId:  event.target.id, userId: this.props.userId, useris: this.props.useris};
 
       fetch(`/deletepoll`,{
         method: 'POST',
@@ -275,7 +275,7 @@ class PresentMyPollsComponent extends Component {
                     <li>Poll Title: <p> {element.question}</p></li>
                     <li>Created by: <p>{element.createdBy}</p> </li>
                     
-                    <li><ModalPoll userId={this.props.userId} fetchData={this.props.fetchData}  token={this.props.token} orderMe={i}  elementname={element.question} id={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
+                    <li><ModalPoll useris={this.props.useris} userId={this.props.userId} fetchData={this.props.fetchData}  token={this.props.token} orderMe={i}  elementname={element.question} id={element._id} elementoptions={element.options} elementvotes={element.options.votes}/></li>
                     </ul>
                     <div className='shareLink'>Share link: <a href={`https://voting-up.herokuapp.com/sharedpoll/${element._id}`}> {"https://voting-up.herokuapp.com/sharedpoll/" + element._id}</a></div>
                  

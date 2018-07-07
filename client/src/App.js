@@ -141,7 +141,7 @@ class MyApp extends React.Component {
       }
 
       allpolls(){
-          return(<AllPollsComponent fetchData={this.fetchData} loadedPolls={this.state.loadedPolls} />);
+          return(<AllPollsComponent useris={this.state.userIs} fetchData={this.fetchData} loadedPolls={this.state.loadedPolls} />);
       }
 
       Login(){
@@ -176,7 +176,7 @@ class MyApp extends React.Component {
       }
 
       PresentMyPolls(){
-            return (<PresentMyPollsComponent userId={this.state.userId} fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
+            return (<PresentMyPollsComponent useris={this.state.userIs} userId={this.state.userId} fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
       }
 
 

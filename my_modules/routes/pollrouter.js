@@ -24,17 +24,32 @@ router.get('/allpolls',(req,res,next)=>{
 
 router.post('/deletepoll',passport.authenticate('jwt',{session:false}),function(req,res){
 
-       console.log(req.body.userId, req.user._id);
-         if(req.body.userId == req.user._id){
-            Poll.findByIdAndRemove(req.body.pollToDeletebyId,function(err,resret){
-                if(err){throw err;}
-                else{
-                     res.status(200).send({success: true,from:'poll deleted',id:resret._id });
+        
+       Poll.find((err,elements)=>{
+        if(err){
+            return next(err);
+        } 
+          for(var i = 0; i< elements.length; i++){
+                if(elements[i].createdBy == req.body.useris){
+                    if(req.body.userId == req.user._id){
+                        Poll.findByIdAndRemove(req.body.pollToDeletebyId,function(err,resret){
+                            if(err){throw err;}
+                            else{
+                                 res.status(200).send({success: true,from:'poll deleted',id:resret._id });
+                            }
+                       });
+                     } else {
+                        res.status(401).send({success: false,from:'poll deleted',msg:"Not authorized."});
+                     }
+
+                     break;
+
                 }
-           });
-         } else {
-            res.status(401).send({success: false,from:'poll deleted',msg:"Not authorized."});
-         }
+          }
+         
+    });
+
+         
 
        
     });
