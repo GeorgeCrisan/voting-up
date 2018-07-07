@@ -50,7 +50,7 @@ router.post('/login',function(req,res,next){
                  user.comparePassword(req.body.password,function(err,isMatch){
                      if(isMatch && !err){
                          var token = jwt.sign(user.toJSON(), process.env.SECRET_JWT,{expiresIn:'1h'});
-                         res.json({success: true, token: 'JWT ' + token});
+                         res.json({success: true, token: 'JWT ' + token  , userId: user._id});
                      } else {
                          res.status(401).json({success: false, from: 'wrongpass', msg: 'Wrong Password. Failed auth!'});
                      }

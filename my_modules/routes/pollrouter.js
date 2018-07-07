@@ -23,13 +23,20 @@ router.get('/allpolls',(req,res,next)=>{
 }); 
 
 router.post('/deletepoll',passport.authenticate('jwt',{session:false}),function(req,res){
-    console.log(req.body.pollToDeletebyId);
-       Poll.findByIdAndRemove(req.body.pollToDeletebyId,function(err,resret){
-            if(err){throw err;}
-            else{
-                 res.status(200).send({success: true,from:'poll deleted',id:resret._id });
-            }
-       });
+
+       console.log(req.body.userId, req.user._id);
+         if(req.body.userId == req.user._id){
+            Poll.findByIdAndRemove(req.body.pollToDeletebyId,function(err,resret){
+                if(err){throw err;}
+                else{
+                     res.status(200).send({success: true,from:'poll deleted',id:resret._id });
+                }
+           });
+         } else {
+            res.status(401).send({success: false,from:'poll deleted',msg:"Not authorized."});
+         }
+
+       
     });
 
 router.get('/mypolls',passport.authenticate('jwt',{session:false}),function(req,res,next){
@@ -58,19 +65,28 @@ router.post('/optionsUpdate/:id',passport.authenticate('jwt',{session:false}),fu
   });
 
 router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(req,res,next){
-
+             console.log(req.body.userId, req.user._id);
             let dataToPass = {
                 options : req.body.options,
                 question: req.body.question,
                 createdBy: req.user.username
           }
+          dataToPass.options.forEach(element => {
+               element.votes = 0;
+
+
+          });
            
-      Poll.create(dataToPass, function (err, post) {
-          if (err) {
-           return next(err);
-          }
-          res.json({success: true, msg: 'Poll created!'});
-        });         
+      if(req.body.userId == req.user._id){
+        Poll.create(dataToPass, function (err, post) {
+            if (err) {
+             return next(err);
+            }
+            res.json({success: true, msg: 'Poll created!'});
+          });
+      } else {
+        res.json({success: false, msg: 'Not allowed to create Poll!'});
+      }         
 
 });
 

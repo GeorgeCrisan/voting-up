@@ -14,7 +14,7 @@ class CreatePollComponent extends Component {
             question: '',
             options: [{optionBody: '', votes: 0}],
             error:{errorMess: 'Characters requiered for title.',
-                   notEnogghOptions: 'Please insert at least one option.'},    
+                   notEnogghOptions: 'Please insert at least one option.'},
             token: '',
             redirect: false,
             redirectError: false
@@ -59,10 +59,21 @@ class CreatePollComponent extends Component {
     }
 
     SubmitConditions(){
-        if(this.state.question.length < 1 || this.state.options.length < 1){
-          
+        if(this.state.question.length < 2 || this.state.options.length < 1 || !/^[^\s].*/.test(this.state.question)){
+
+         return false; 
+
+        } else if (this.state.options.length < 2){
+
          return false;
-        } 
+       } else if(this.state.options) {
+            for(var i = 0; i < this.state.options.length; i++){
+
+              if(this.state.options[i].optionBody.length < 2 || !/^[^\s].*/.test(this.state.options[i].optionBody || this.state.options[i].optionBody.length > 555)){
+                return false;
+              }
+            }
+       }
 
         return true; 
           
@@ -121,15 +132,35 @@ class CreatePollComponent extends Component {
   
     onFormSubmit(event){
         event.preventDefault();
-        if(this.state.question.length < 2 || this.state.options.length < 1){
-
+        if(this.state.question.length < 2 || !/^[^\s].*/.test(this.state.question)){
+          alert("No white spaces allowed at the beginning of entry/no empty entry allowed!");
+          console.log('false from on submit');
           return false;
-        }
+        } else if (this.state.options.length < 2 || !this.state.options[0]){
+           alert('You need two options or more!');
+          return false;
+        } else if(this.state.options) {
+          for(var i = 0; i < this.state.options.length; i++){
+ 
+            if(this.state.options[i].optionBody.length < 2 || !/^[^\s].*/.test(this.state.options[i].optionBody || this.state.options[i].optionBody.length > 555)){
+              alert("No white spaces allowed at the beginning of entry/no empty option allowed!");
+              return false;
+            }
+          }
+     } 
+
+
+        
+         console.log(this.props.userId);
           
         let dataToSubmit = {
           question: this.state.question,
-          options: this.state.options
+          options: this.state.options,
+          userIs: this.props.userIs,
+          userId: this.props.userId
      };
+
+
     fetch('/createpoll',{
       method: 'POST',
       headers:{
@@ -140,12 +171,13 @@ class CreatePollComponent extends Component {
         body: JSON.stringify(dataToSubmit)
     }).then(res=>{
          if(res.status === 401){
+            alert('Your action is not authorized!');
             this.setState({redirectError: true})
 
          } else {
 
           res.json().then(dataRec=>{
-              
+              console.log(dataRec);
          
             if(dataRec.success === true){
                this.props.fetchData();
@@ -174,7 +206,7 @@ class CreatePollComponent extends Component {
                   <FormGroup controlId={'option'+ i} key={i} validationState={this.validateStateForm('option',i)}>
                   <Col smOffset={2} sm={8}>
                  
-                  <FormControl type="text" autoComplete="off"   name={i+'option'} value={this.state.options[i].optionBody} placeholder={'Option '+i} onChange={this.handleChangeFormValueOption}/>
+                  <FormControl type="text" autoComplete="off"   name={i+'option'} value={this.state.options[i].optionBody} placeholder={i} onChange={this.handleChangeFormValueOption}/>
                   
                   <FormControl.Feedback/>
                   </Col>

@@ -24,7 +24,8 @@ class MyApp extends React.Component {
                      showModalAuth: false,
                      userIsLogged: false,
                      token:  null,
-                     userIs: null
+                     userIs: null,
+                     userId: null
 
               }
           this.allpolls = this.allpolls.bind(this);
@@ -92,9 +93,9 @@ class MyApp extends React.Component {
     
            }
 
-       confirmUserIsLogged(paramCUIL,userWho){
+       confirmUserIsLogged(paramCUIL,userWho,userIdul){
 
-           this.setState({userIsLogged: true, token: paramCUIL, userIs: userWho});
+           this.setState({userIsLogged: true, token: paramCUIL, userIs: userWho , userId: userIdul});
            localStorage.setItem('userIs',userWho);
 
        }
@@ -171,11 +172,11 @@ class MyApp extends React.Component {
       }
 
       createPollHandler(){
-          return (<CreatePollComponent token={this.state.token} fetchData={this.fetchData} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
+          return (<CreatePollComponent userId={this.state.userId} userIs={this.state.userIs} token={this.state.token} fetchData={this.fetchData} show={this.state.showModalAuth}  handleClose={this.handleClose} handleShow={this.handleShow} />);
       }
 
       PresentMyPolls(){
-            return (<PresentMyPollsComponent fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
+            return (<PresentMyPollsComponent userId={this.state.userId} fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
       }
 
 

@@ -104,10 +104,10 @@ class Login extends Component {
          res.json().then(data=>{
 
            if(data.success === true){
-          
+
             localStorage.setItem('jwtTokenFS',data.token);
 
-            this.props.confirmUserIsLogged(data.token, this.state.username);
+            this.props.confirmUserIsLogged(data.token, this.state.username , data.userId);
             this.setState({username:'',password: ''});
           } else if (data.success === false){
                 if(data.from === 'nouser'){
