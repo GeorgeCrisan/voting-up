@@ -53,6 +53,7 @@ router.get('/mypolls',passport.authenticate('jwt',{session:false}),function(req,
 router.post('/optionsUpdate/:id',passport.authenticate('jwt',{session:false}),function(req,res,next){
 
             let querry = String(req.params.id);
+
             Poll.findByIdAndUpdate(querry,{$set:{options:req.body}},function(err,data){
                   if(err)
                      next(err);
@@ -65,7 +66,7 @@ router.post('/optionsUpdate/:id',passport.authenticate('jwt',{session:false}),fu
   });
 
 router.post('/createpoll',passport.authenticate('jwt',{session:false}),function(req,res,next){
-             console.log(req.body.userId, req.user._id);
+             console.log(req.body.userId, req.user._id, 'aici error');
             let dataToPass = {
                 options : req.body.options,
                 question: req.body.question,

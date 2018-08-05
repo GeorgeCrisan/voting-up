@@ -14,7 +14,7 @@ import PresentMyPollsComponent from './Components/mypolls.js';
 import SharedPoll from './Components/sharedpolls.js';
 import './App.css';
 
-
+ 
 
 class MyApp extends React.Component {
         constructor(props){

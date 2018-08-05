@@ -5,7 +5,7 @@
 
 
 .bodyapp
-  width: 1000px 
+  width: 1000px
   margin: auto    
   color: white
   border-radius: 30px
@@ -21,6 +21,7 @@
     flex-flow: row nowrap
     text-align: left
     justify-content: space-between
+    padding: 0px
     li 
       font-family: 'Titillium Web', sans-serif, 'Gugi', cursive
       font-size: 16px 
@@ -30,6 +31,7 @@
       &:first-child
         width: 40%
         color: black
+        margin-left: 10px
       &:last-child 
         margin: 5px 5px 3px 5px
       &:nth-child(2) 
@@ -81,3 +83,98 @@
         margin-left: 5px
         margin:  5px 10px 0px 10px  
         border-radius: 10px 
+
+
+@media screen and (max-width: 500px)    
+  .bodyapp
+    width: 95%
+    margin: auto    
+    color: white
+  .elementPoll
+    margin-bottom: 20px
+    width: 100%
+    background-image: linear-gradient(120deg, teal 0%, black 80%)
+    border-radius: 0px
+    ul 
+      list-style: none
+      display: flex
+      flex-flow: row nowrap
+      text-align: left
+      justify-content: space-between
+      li 
+        font-family: 'Titillium Web', sans-serif, 'Gugi', cursive
+        font-size: 11px 
+        margin: 15px  0px 10px 0px
+        color: Black
+        font-weight: bold
+        &:first-child
+          width: 70%
+          color: blac
+          margin-right: 10px
+          margin-left: 10px
+          text-align: center
+        &:last-child 
+          margin: 5px 5px 3px 5px
+        &:nth-child(2) 
+          color: white
+        p
+          color: white
+          display: inline
+          font-size: 11px
+          margin-left: 5px
+          text-align: left
+          text-shadow: 1px 1px 10px  #222
+        button 
+          margin-left: 5px
+          margin:  0 0 2px 5px
+          font-size: 12px
+
+
+
+
+
+@media screen and (min-width: 501px) and (max-width: 900px)  
+  .bodyapp
+    width: 95% 
+    margin: auto    
+    color: white
+  .elementPoll
+    margin-bottom: 20px
+    width: 100%
+    background-image: linear-gradient(120deg, teal 0%, black 80%)
+    border-radius: 10px  
+    ul 
+      list-style: none
+      display: flex
+      flex-flow: row nowrap
+      text-align: left
+      justify-content: space-between
+      li 
+        font-family: 'Titillium Web', sans-serif, 'Gugi', cursive
+        font-size: 16px 
+        margin: 15px  0px 10px 0px
+        color: Black
+        font-weight: bold
+        &:first-child
+          width: 50%
+          color: blac
+          margin-right: 10px
+          margin-left: 10px
+          text-align: left
+        &:last-child 
+          margin: 5px 5px 3px 5px
+        &:nth-child(2) 
+          color: white
+        p
+          color: white
+          display: inline
+          font-size: 14px
+          margin-left: 5px
+          text-align: left
+          text-shadow: 1px 1px 10px  #222
+        button 
+          margin-left: 5px
+          margin:  3px 0 2px 5px
+          font-size: 12px
+          align-self: center
+          

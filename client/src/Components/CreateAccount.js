@@ -120,11 +120,10 @@ class CreateAccount extends Component {
                              body: JSON.stringify(dataT)
                          }).then(res=>{
                                  res.json().then(recdata=>{
- 
                                    if(recdata.success === true){
                                      localStorage.setItem('jwtTokenFS',recdata.token);
-                                     this.props.confirmUserIsLogged(recdata.token, this.state.username);
-                                     this.setState({username: '', password:'', token: data.token});
+                                     this.props.confirmUserIsLogged(recdata.token, this.state.username ,recdata.userId);
+                                     this.setState({username: '', password:'', token: recdata.token});
                                    }
                                  });
                                

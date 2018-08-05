@@ -106,7 +106,7 @@ class Login extends Component {
            if(data.success === true){
 
             localStorage.setItem('jwtTokenFS',data.token);
-
+             console.log(data.userId);
             this.props.confirmUserIsLogged(data.token, this.state.username , data.userId);
             this.setState({username:'',password: ''});
           } else if (data.success === false){
@@ -118,7 +118,7 @@ class Login extends Component {
 
                this.setState({redirect: true});  
           }
-
+ 
          });
 
      });
