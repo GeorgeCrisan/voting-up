@@ -5,6 +5,7 @@ import MyApp from './App.js';
 import WebFont from 'webfontloader';
 import {BrowserRouter as Router } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
+ 
 
 
 WebFont.load({
@@ -15,6 +16,7 @@ WebFont.load({
 
 ReactDOM.render(
     <Router>
-    <MyApp />
+    
+     <MyApp  />
     </Router> , document.getElementById('root'));
 registerServiceWorker();

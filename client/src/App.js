@@ -1,4 +1,5 @@
 import React from 'react';
+import SizeMe  from 'react-sizeme';
 import Header from './header.js';
 import AllPollsComponent from './allpolls.js';
 import Footer from './footer.js';
@@ -14,7 +15,6 @@ import PresentMyPollsComponent from './Components/mypolls.js';
 import SharedPoll from './Components/sharedpolls.js';
 import './App.css';
 
- 
 
 class MyApp extends React.Component {
         constructor(props){
@@ -145,7 +145,7 @@ class MyApp extends React.Component {
       }
 
       Login(){
-          return(<Login confirmUserIsLogged={this.confirmUserIsLogged} show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
+          return(<Login  confirmUserIsLogged={this.confirmUserIsLogged} show={this.state.showModalAuth} handleClose={this.handleClose} handleShow={this.handleShow} />);
       }
 
       CreateAccountF(){
@@ -183,11 +183,11 @@ class MyApp extends React.Component {
    render(){
 
     return(
-
-        <div className="base-style">
-
+         
+        <div className="base-style" >
+     
         <Header confirmLogOut={this.confirmLogOut} SwitchAuthCA={this.SwitchAuthCA} SwitchAuthSI={this.SwitchAuthSI} handleShow={this.handleShow}  userIsLogged={this.state.userIsLogged}/>
-        <Switch>
+        <Switch >
         <Route path='/polls' render={this.allpolls}/>
         <Route exact path='/' component={EntryPage} />
         <Route path='/authSignIn' render={this.Login}/>
@@ -200,7 +200,6 @@ class MyApp extends React.Component {
         <Route path='/sharedpoll/:id' render={this.sharedPoll}/>
         </Switch>
         <Footer />
-
         </div>);
     };
 }

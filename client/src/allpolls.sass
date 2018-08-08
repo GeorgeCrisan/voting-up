@@ -9,6 +9,8 @@
   margin: auto    
   color: white
   border-radius: 30px
+  height: 100%
+  margin-bottom: 50px
 .elementPoll
   margin-bottom: 20px
   width: 100%
@@ -52,6 +54,7 @@
   width: 100%
   background-image: linear-gradient(120deg, teal 0%, black 70%)
   border-radius: 10px
+  
 
   ul 
     list-style: none
@@ -68,6 +71,7 @@
       &:first-child
         width: 40%
         color: white
+        text-align: center
       &:last-child 
         margin: 5px 5px 3px 5px
       &:nth-child(2) 
@@ -85,11 +89,65 @@
         border-radius: 10px 
 
 
-@media screen and (max-width: 500px)    
+@media screen and (max-width: 500px)  
+  .modal-footer
+    display: flex
+    flex-flow: column wrap
+    justify-content: space-between
+    button
+      font-size: 14px
+      
+      margin-top: 15px
+
+  .modal-body 
+    display: flex
+    flex-flow: column wrap
+    justify-content: space-between
+    button
+      font-size: 14px
+      width: 100%
+      margin-top: 15px
+      margin-left: 0 !important
+    
+      
+
+
   .bodyapp
     width: 95%
     margin: auto    
     color: white
+  .elementPollMy
+    width: 100%
+    div 
+      a 
+       font-size: 11px
+    
+    button
+      font-size: 11px
+    ul 
+      padding: 0 
+      margin: 0
+      display: flex
+      flex-flow: column nowrap   
+      justify-content: center
+      text-align: center
+      li,li:first-child 
+        padding:  0 10px 0 10px
+        font-size: 14px
+        text-align: center
+        width: 100%
+        color: orange
+        
+        p 
+          font-size: 14px  
+          text-align: center
+          color: white
+          text-align: center
+        div 
+          display: flex
+          flex-flow: column
+          padding: 10px 0 10px 0
+              
   .elementPoll
     margin-bottom: 20px
     width: 100%

@@ -25,7 +25,7 @@ if(!this.props.userIsLogged){
                 <h3> Vote up! Create polls! </h3>
                <div className='header-body'>
                <Link to='/polls'><Button className='defaultButton'  >  Polls list </Button> </Link>
-               <Link to='/register' > <Button className='defaultButton' onClick={this.props.handleShow}> Create Account</Button></Link>
+               <Link to='/register' > <Button className='defaultButton' onClick={this.props.handleShow}> Sign Up</Button></Link>
                <Link to='/authSignIn'><Button className='SignInButton' onClick={this.props.handleShow} >  Sign In </Button></Link>
                
                </div>
@@ -37,7 +37,7 @@ if(!this.props.userIsLogged){
                    <div className='header-body'>
                    <Link to='/polls'><Button bsStyle="info" className='defaultButton'  >  Poll list </Button> </Link>
                    <Link to='/mypolls'><Button bsStyle="info" className='defaultButton' > My Polls </Button></Link>
-                   <Link to='/createnewpoll'><Button bsStyle="info" className='defaultButton'  onClick={this.props.handleShow}> Create Poll </Button></Link>
+                   <Link to='/createnewpoll'><Button bsStyle="info" className='defaultButton'  onClick={this.props.handleShow}> New Poll </Button></Link>
                    <Link to='/'><Button  className='SignOutButton'  onClick={this.runLogOut} >  Sign Out </Button></Link>
                    </div>
                 </div>)

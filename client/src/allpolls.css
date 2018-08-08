@@ -7,7 +7,9 @@
   width: 1000px;
   margin: auto;
   color: white;
-  border-radius: 30px; }
+  border-radius: 30px;
+  height: 100%;
+  margin-bottom: 50px; }
 
 .elementPoll {
   margin-bottom: 20px;
@@ -65,7 +67,8 @@
       font-weight: bold; }
       .elementPollMy ul li:first-child {
         width: 40%;
-        color: white; }
+        color: white;
+        text-align: center; }
       .elementPollMy ul li:last-child {
         margin: 5px 5px 3px 5px; }
       .elementPollMy ul li:nth-child(2) {
@@ -83,10 +86,54 @@
         border-radius: 10px; }
 
 @media screen and (max-width: 500px) {
+  .modal-footer {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between; }
+    .modal-footer button {
+      font-size: 14px;
+      margin-top: 15px; }
+  .modal-body {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between; }
+    .modal-body button {
+      font-size: 14px;
+      width: 100%;
+      margin-top: 15px;
+      margin-left: 0 !important; }
   .bodyapp {
     width: 95%;
     margin: auto;
     color: white; }
+  .elementPollMy {
+    width: 100%; }
+    .elementPollMy div a {
+      font-size: 11px; }
+    .elementPollMy button {
+      font-size: 11px; }
+    .elementPollMy ul {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      text-align: center; }
+      .elementPollMy ul li, .elementPollMy ul li:first-child {
+        padding: 0 10px 0 10px;
+        font-size: 14px;
+        text-align: center;
+        width: 100%;
+        color: orange; }
+        .elementPollMy ul li p, .elementPollMy ul li:first-child p {
+          font-size: 14px;
+          text-align: center;
+          color: white;
+          text-align: center; }
+        .elementPollMy ul li div, .elementPollMy ul li:first-child div {
+          display: flex;
+          flex-flow: column;
+          padding: 10px 0 10px 0; }
   .elementPoll {
     margin-bottom: 20px;
     width: 100%;

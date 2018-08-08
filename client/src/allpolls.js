@@ -12,12 +12,14 @@ class ModalPoll extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.renderChart = this.renderChart.bind(this);
     this.votedNowRender = this.votedNowRender.bind(this);
+    this.handleResize = this.handleResize.bind(this);
 
 
     this.state = {
       
       show: false,
       voted: false,
+      windowSize : window.innerWidth
 
 
     };
@@ -31,8 +33,18 @@ class ModalPoll extends Component {
     this.setState({ show: true , voted: false});
   }
  
+  
+  componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
+  }
 
-
+  componentWillUnmount() {
+    window.addEventListener("resize", null);
+  }
+  
+  handleResize(){
+    this.setState({windowSize: window.innerWidth})
+  }
 
   votedNowRender(index,idul){
 
@@ -46,7 +58,12 @@ class ModalPoll extends Component {
   }
    
   renderChart(){
-      
+      let divizor = 1;
+
+      if(this.state.windowSize < 500)
+         divizor = 3;
+         else 
+          divizor = 1;
 
       let chart = d3.select('#chart');
       let data = this.props.elementoptions;
@@ -77,7 +94,7 @@ class ModalPoll extends Component {
           .transition()
           .delay(500)
           .duration(1000)
-          .style('width', d => xScale(d.votes) + 'px');   
+          .style('width', d => xScale(d.votes / divizor  ) + 'px');   
           
           this.setState({voted: true});
   }
