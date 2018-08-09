@@ -1,5 +1,5 @@
 import React from 'react';
-import SizeMe  from 'react-sizeme';
+
 import Header from './header.js';
 import AllPollsComponent from './allpolls.js';
 import Footer from './footer.js';
@@ -176,7 +176,7 @@ class MyApp extends React.Component {
       }
 
       PresentMyPolls(){
-            return (<PresentMyPollsComponent useris={this.state.userIs} userId={this.state.userId} fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
+            return (<PresentMyPollsComponent  userId={this.state.userId} fetchData={this.fetchData} loadedMyPolls={this.state.loadedPolls} userIs={this.state.userIs} token={this.state.token} />);
       }
 
 

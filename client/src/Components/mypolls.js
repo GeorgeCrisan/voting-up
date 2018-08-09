@@ -123,9 +123,7 @@ class ModalPoll extends Component {
 
     }
 
-    removeOption(event){
-
-        let queryId = String(event.target.id);
+    removeOption(){
 
         let temp = this.state.tempOptions;
         temp.pop();

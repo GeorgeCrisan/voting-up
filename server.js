@@ -57,7 +57,13 @@ app.get('/',(req,res)=>{
 
 
 
-
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'path/to/your/index.html'), function(err) {
+      if (err) {
+        res.status(500).send(err)
+      }
+    })
+  })
 
 
 
@@ -66,7 +72,7 @@ app.use((err,req,res,next)=>{
 
     if(err){
         res.status = err.status;
-        res.json({'error':err ,middleware: 'error end'});
+        res.json({'error':err ,middleware: 'error end 404'});
     }
 });
 
