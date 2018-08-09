@@ -4,8 +4,8 @@ html {
 
 .addsense1 {
   width: 70%;
-  height: 200px;
-  margin: 30px auto; }
+  height: 300px;
+  margin: 70px auto 0 auto; }
 
 [react-root] {
   height: 100% !important; }
