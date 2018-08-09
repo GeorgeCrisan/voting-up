@@ -8,6 +8,10 @@ import './entrypage.css';
 
 class EntryPage extends Component {
 
+    componentDidMount(){
+(window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
+
     render(){
         return(<div className='entry-page'>
 
@@ -29,18 +33,15 @@ class EntryPage extends Component {
                 <p>Node, Express, ReactJS, Mongoose.</p>
             </div>
             <div className='addsense1'>
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-         
-                      <ins className="adsbygoogle"
-                           style={{display:'block'}}
-                           data-ad-client="ca-pub-2372442392819950"
-                           data-ad-slot="9393559310"
-                           data-ad-format="auto"
-                           data-full-width-responsive="true"></ins>
-                      <script>
 
-                      (adsbygoogle = window.adsbygoogle || []).push({});
-             </script>
+         
+            <ins className="adsbygoogle"
+            style={{display:"block"}}
+            data-ad-client="ca-pub-2372442392819950"
+            data-ad-slot="9393559310"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+
              </div>
             </div>)
     }
