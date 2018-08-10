@@ -1,8 +1,5 @@
 .entry-page {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  flex-flow: column nowrap;
+  display: block;
   height: 100%;
   padding-bottom: 20px;
   padding-top: 100px; }
