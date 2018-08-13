@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const helmet = require('helmet');
 let passportStrategyJwt = require(path.join(__dirname+ '/my_modules/routes/passport.js'));
 
 
@@ -18,11 +19,13 @@ let port = 8333;
 dotenv.config();
 const app = express();
 
+app.disable('x-powered-by');
+app.use(helmet());
 
 
 
 app.use(morgan('dev'));
-app.use(cors());
+//app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname + '/client/build/')));

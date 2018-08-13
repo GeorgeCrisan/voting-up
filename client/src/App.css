@@ -5,7 +5,7 @@ html {
 .addsense1 {
   width: 70%;
   height: 300px;
-  margin: 70px auto 0 auto; }
+  margin: 70px auto 40px auto; }
 
 [react-root] {
   height: 100% !important; }
