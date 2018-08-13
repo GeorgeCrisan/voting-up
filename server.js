@@ -20,7 +20,33 @@ dotenv.config();
 const app = express();
 
 app.disable('x-powered-by');
-app.use(helmet());
+//app.use(helmet());
+
+app.use(helmet({
+
+    frameguard: { // configure
+    
+    action: 'deny'
+    
+    },
+    
+    contentSecurityPolicy: { // enable and configure
+    
+    directives: {
+    
+    defaultSrc: ["'self'"],
+    
+    styleSrc: ['"self"'],
+
+    scriptSrc:['"self"']
+    
+    }
+    
+    },
+    
+    dnsPrefetchControl: false // disable
+    
+    }));
 
 
 
