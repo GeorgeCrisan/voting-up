@@ -20,33 +20,9 @@ dotenv.config();
 const app = express();
 
 app.disable('x-powered-by');
-//app.use(helmet());
+app.use(helmet());
 
-app.use(helmet({
 
-    frameguard: { // configure
-    
-    action: 'deny'
-    
-    },
-    
-    contentSecurityPolicy: { // enable and configure
-    
-    directives: {
-    
-    defaultSrc: ["'self'"],
-    
-    styleSrc: ['"self"'],
-
-    scriptSrc:['"self"']
-    
-    }
-    
-    },
-    
-    dnsPrefetchControl: false // disable
-    
-    }));
 
 
 
@@ -92,8 +68,7 @@ app.get('/*', function(req, res) {
         res.status(500).send(err)
       }
     })
-  })
-
+  });
 
 
 //error handler 
@@ -104,6 +79,8 @@ app.use((err,req,res,next)=>{
         res.json({'error':err ,middleware: 'error end 404'});
     }
 });
+
+
 
   
 app.listen( process.env.PORT || port, ()=> console.log(`runing at ${ process.env.PORT || port} and ${process.env.MONGOLAB_URI}`));
